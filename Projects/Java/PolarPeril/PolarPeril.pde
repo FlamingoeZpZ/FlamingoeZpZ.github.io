@@ -1,27 +1,28 @@
 /* @pjs preload="data/Game/ballpile.png, data/Game/Floor.png, data/Game/gameOver.png, 
-data/Game/Igloo.png, data/Game/ladder.png, data/Game/youWin.png, data/Game/Platform.png, 
-data/Burst/0.png, data/Burst/1.png, data/Burst/2.png, data/Burst/3.png, data/Burst/4.png, 
-data/Burst/5.png, data/Burst/6.png, data/Burst/7.png, data/Burst/8.png, data/Burst/9.png, 
-data/Burst/10.png, data/Burst/11.png, data/Burst/12.png, data/Burst/13.png, data/Burst/14.png, 
-data/Burst/15.png, data/Burst/16.png, data/Burst/17.png, data/Burst/18.png, data/Burst/19.png, 
-data/Ball/ball0.png, data/Ball/ball1.png, data/Ball/ball2.png, data/Ball/ball3.png, 
-data/Ball/sliced_ball0.png, data/Ball/sliced_ball1.png, data/Ball/sliced_ball2.png, 
-data/Penguin/penguin0.png, 
-data/Penguin/penguinFall0.png, data/Penguin/penguinFall1.png, 
-data/Penguin/penguinWaddle0.png, data/Penguin/penguinWaddle1.png, data/Penguin/penguinWaddle2.png, 
-data/Penguin/penguinWaddle3.png, 
-data/Player/pAttack0.png, data/Player/pAttack1.png, data/Player/pAttack2.png, data/Player/pAttack3.png, 
-data/Player/pAttack4.png, data/Player/pAttack5.png, data/Player/pAttack6.png, data/Player/pAttack7.png, 
-data/Player/pAttack8.png, data/Player/pAttack9.png, data/Player/pAttack10.png, 
-data/Player/pIdle0.png, data/Player/pIdle1.png, data/Player/pIdle2.png, data/Player/pIdle3.png, 
-data/Player/pFall0.png, data/Player/pFall1.png, 
-data/Player/pJump0.png, data/Player/pJump1.png, data/Player/pJump2.png, data/Player/pJump3.png, 
-data/Player/pRoll0.png, data/Player/pRoll1.png, data/Player/pRoll2.png, data/Player/pRoll3.png, 
-data/Player/pRun0.png, data/Player/pRun1.png, data/Player/pRun2.png, data/Player/pRun3.png, 
-data/Player/pRun4.png, data/Player/pRun5.png, 
-data/Yeti/BobStand0.png, data/Yeti/BobStand1.png, 
-data/Yeti/BobDance0.png, data/Yeti/BobDance1.png, 
-data/Yeti/BobToss0.png, data/Yeti/BobToss1.png, data/Yeti/BobToss2.png" */
+ data/Game/Igloo.png, data/Game/ladder.png, data/Game/youWin.png, data/Game/Platform.png, 
+ data/Burst/0.png, data/Burst/1.png, data/Burst/2.png, data/Burst/3.png, data/Burst/4.png, 
+ data/Burst/5.png, data/Burst/6.png, data/Burst/7.png, data/Burst/8.png, data/Burst/9.png, 
+ data/Burst/10.png, data/Burst/11.png, data/Burst/12.png, data/Burst/13.png, data/Burst/14.png, 
+ data/Burst/15.png, data/Burst/16.png, data/Burst/17.png, data/Burst/18.png, data/Burst/19.png, 
+ data/Ball/ball0.png, data/Ball/ball1.png, data/Ball/ball2.png, data/Ball/ball3.png, 
+ data/Ball/sliced_ball0.png, data/Ball/sliced_ball1.png, data/Ball/sliced_ball2.png, 
+ data/Penguin/penguin0.png, 
+ data/Game/jagged2.jpg, 
+ data/Penguin/penguinFall0.png, data/Penguin/penguinFall1.png, 
+ data/Penguin/penguinWaddle0.png, data/Penguin/penguinWaddle1.png, data/Penguin/penguinWaddle2.png, 
+ data/Penguin/penguinWaddle3.png, 
+ data/Player/pAttack0.png, data/Player/pAttack1.png, data/Player/pAttack2.png, data/Player/pAttack3.png, 
+ data/Player/pAttack4.png, data/Player/pAttack5.png, data/Player/pAttack6.png, data/Player/pAttack7.png, 
+ data/Player/pAttack8.png, data/Player/pAttack9.png, data/Player/pAttack10.png, 
+ data/Player/pIdle0.png, data/Player/pIdle1.png, data/Player/pIdle2.png, data/Player/pIdle3.png, 
+ data/Player/pFall0.png, data/Player/pFall1.png, 
+ data/Player/pJump0.png, data/Player/pJump1.png, data/Player/pJump2.png, data/Player/pJump3.png, 
+ data/Player/pRoll0.png, data/Player/pRoll1.png, data/Player/pRoll2.png, data/Player/pRoll3.png, 
+ data/Player/pRun0.png, data/Player/pRun1.png, data/Player/pRun2.png, data/Player/pRun3.png, 
+ data/Player/pRun4.png, data/Player/pRun5.png, 
+ data/Yeti/BobStand0.png, data/Yeti/BobStand1.png, 
+ data/Yeti/BobDance0.png, data/Yeti/BobDance1.png, 
+ data/Yeti/BobToss0.png, data/Yeti/BobToss1.png, data/Yeti/BobToss2.png" */
 
 
 Player player;
@@ -29,17 +30,18 @@ Floor [] floors = new Floor[10];
 Platform[] platforms = new Platform[2];
 boolean debug = true;
 ArrayList<Snowball> snowballs = new ArrayList<Snowball>();
-float camY = 0;
+float camY;
 float camSpeed = 0.1;
-int startDelay = 200;
+int startDelay;
 
 int floorsGenerated;
 
 boolean isGameOver;
 
+
 void setup()
 {
-  size(1200, 800);
+  size(900, 675);
   loadImages();
   imageMode(CENTER);
   textAlign(CENTER);
@@ -47,16 +49,25 @@ void setup()
   reset();
 }
 
+float t = 0;
 void draw()
 {
   //HexCode
   background(#162d35);
-
-
+  
+  tint(230,80,33);
+  
+ 
+  //281 is just some magic number based on the image.
+  image(bg,width/2, int(floor(camY/4) % 210) + height/2 - (112) );
+  
+  ///camY %= k + height/2;
   for (int i = 0; i < floors.length; i += 1)
   {
     floors[i].display();
   }
+  fill(255);
+   text(frameRate, 100, 100);
   textSize(32);
   text("SCORE: " + (floorsGenerated-floors.length), 100, 40);
 
@@ -81,7 +92,7 @@ void draw()
     }
     if (current.collide(player))
     {
-      if (player.isAttacking && player.isFacingLeft != current.isFacingLeft)
+      if (player.isAttacking)
       {
         current.markDestroyed();
       } else
@@ -98,14 +109,14 @@ void draw()
     fill(abs(startDelay)%360, 100, 100);
     text("GAME OVER", width/2, height/2);
     textSize(32);
-    fill(0,0,0);
-    text("Press to play again", width/2, height/2 +48);
+    fill(0, 0, 0);
+    text("Press to play again", width/2, height/2 + 64);
     return;
   } 
 
   moveCamera();
-  
-  if(player.y > height + 50)
+
+  if (player.y > height + 50)
   {
     isGameOver = true;
   }
@@ -123,7 +134,6 @@ void reset()
 {
   isGameOver = false;
   player =  new Player();
-  
   floorsGenerated = 0;
   camY = 0;
   startDelay = 200;
@@ -131,7 +141,7 @@ void reset()
   floors[0] = new Floor( width/2, height, 0, 1);
   player.currentFloor = floors[0];
   player.x = width/2;
-  player.y = height;
+
   snowballs.clear();
 
 
@@ -258,7 +268,7 @@ class Floor
     rebuildFloor(x, y, random(-30, 30), random(0.75, 1.25));
   }
 
-  //Given some point and an angle, 30 degs up or down and a scale, create a floor.
+  //Given some point and an angle, 30 degs up or down and a scale, create a floorImg.
   void rebuildFloor(float x, float y, float angle, float scale)
   {
     previous = this;
@@ -269,20 +279,20 @@ class Floor
     this.x =x;
     this.y =y;
 
-    halfH = s * floor.height / 2;
+    halfH = s * floorImg.height / 2;
 
     //1. use SOH CAH TOA to find the second point
-    float radians = angle * PI / 180; //Image needs to be rotated 90degs
-    this.angle = angle * PI / 180;
-    float d = floor.width;
-    float xDiff = cos(radians) * d/2 * s;
-    float yDiff = sin(radians) * d/2 * s;
+    float rads = radians(angle); //Image needs to be rotated 90degs
+    this.angle = radians(angle);
+    float d = floorImg.width;
+    float xDiff = cos(rads) * d/2 * s;
+    float yDiff = sin(rads) * d/2 * s;
 
     //2. Apply
     x1 = x-xDiff ;
-    y1 = y-yDiff - floor.height/2 * s;
+    y1 = y-yDiff - floorImg.height/2 * s;
     x2 = x+xDiff ;
-    y2 = y+yDiff - floor.height/2 * s;
+    y2 = y+yDiff - floorImg.height/2 * s;
 
     //3. Calculate the slope.
     float rise = y2-y1;
@@ -291,7 +301,7 @@ class Floor
 
     b = -(m*x-y);
   }
-  
+
 
   void display()
   {
@@ -301,7 +311,7 @@ class Floor
     scale(s, s);
     rotate(angle);
     translate(-x, -ceil(y + camY));
-    image(floor, x, ceil(y + camY));
+    image(floorImg, x, ceil(y + camY));
     popMatrix();
 
     if (debug)
@@ -312,7 +322,7 @@ class Floor
       textSize(32);
     }
 
-    if (min(y1, y2) + camY > height + 50)
+    if (min(y1, y2) + camY > height + 100)
     {
       generateFloor();
     }
@@ -366,12 +376,13 @@ abstract  class GameObject
 }
 
 PImage ballPile;
-PImage floor;
+PImage floorImg;
 PImage gameOver;
 PImage igloo;
 PImage ladder;
 PImage youWin;
 PImage platformImg;
+PImage bg;
 
 Animation burst;
 
@@ -396,8 +407,10 @@ Animation yetiThrow;
 void loadImages()
 {
   //Game
+  bg = loadImage("data/Game/jagged2.jpg");
+  bg.resize(width,width);
   ballPile = loadImage("data/Game/ballpile.png");
-  floor = loadImage("data/Game/Floor.png");
+  floorImg = loadImage("data/Game/Floor.png");
   gameOver = loadImage("data/Game/gameOver.png");
   igloo = loadImage("data/Game/Igloo.png");
   ladder = loadImage("data/Game/ladder.png");
@@ -564,7 +577,7 @@ class Platform extends GameObject
     super(platformImg, x, y);
     yeti = new Yeti(this);
     targetY = y;
-    offset = yeti.img.height -15; //Consistency.
+    offset = yeti.img.height - 15; //Consistency.
     yeti.y = y - offset;
     pileX = x;
     if (x < width/2)
@@ -648,7 +661,13 @@ class Player extends MovingObject
       animator.setAnimation(playerRoll);
     } else if (animator.currentAnim == playerAttack)
     {
-      animator.setAnimation(playerIdle);
+      if (currentFloor == null)
+      {
+        animator.setAnimation(playerRoll);
+      } else
+      {
+        animator.setAnimation(playerIdle);
+      }  
       isAttacking = false;
     }
   }
