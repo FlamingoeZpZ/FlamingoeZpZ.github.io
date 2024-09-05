@@ -1,5 +1,21 @@
 
-
+/* @pjs preload="data/Powerups/flyfooditem.png", "data/Powerups/tadpole.png", 
+               "data/Powerups/biglegs.png", "data/Powerups/turtleshell.png", 
+               "data/Powerups/poweruptrap.png", "data/Backgrounds/swamp.jpg", 
+               "data/Backgrounds/cover.jpg", "data/Toad/toadidle0.png", 
+               "data/Toad/toadidle1.png", "data/Toad/toadidle2.png", 
+               "data/Toad/toadidle3.png", "data/Toad/toadidle4.png", 
+               "data/Toad/toadjump0.png", "data/Toad/toadjump1.png", 
+               "data/Toad/toadjump2.png", "data/Toad/toadjump3.png", 
+               "data/Toad/toadhurt0.png", "data/Obelisk/obeliskshoot0.png", 
+               "data/Obelisk/obeliskshoot1.png", "data/Obelisk/obeliskshoot2.png", 
+               "data/Obelisk/obeliskshoot3.png", "data/Obelisk/obeliskshoot4.png", 
+               "data/Obelisk/obeliskidle0.png", "data/Obelisk/obeliskidle1.png", 
+               "data/Obelisk/obeliskidle2.png", "data/Obelisk/obeliskidle3.png", 
+               "data/Obelisk/projectile.png", "data/Gameplay/explosion0.png", 
+               "data/Gameplay/explosion1.png", "data/Gameplay/explosion2.png", 
+               "data/Gameplay/explosion3.png", "data/Wasp/wasp0.png", 
+               "data/Wasp/wasp1.png"; */
 
 
 
