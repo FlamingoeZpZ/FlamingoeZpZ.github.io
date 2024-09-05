@@ -780,8 +780,8 @@ class Player extends GameObject implements IDamagable, IUpgradable
 //float sChange, float speedChange, float healthChange, float maxHealthChange
 StatUpgrade sBooster = new StatUpgrade(1.2, 0.9, 5, 1.25);
 StatUpgrade healthBooster = new StatUpgrade(0.9, 1.1, 15, 1);
-StatUpgrade speedBooster =  new StatUpgrade(1.1, 1.2, 0, 1);
-StatUpgrade maxHealthBooster = new StatUpgrade(1.1, 0.9, 15, 1.5);
+StatUpgrade speedBooster =  new StatUpgrade(1, 1.2, 0, 1);
+StatUpgrade maxHealthBooster = new StatUpgrade(1, 0.9, 15, 1.5);
 
 PowerUp chooseRandomPowerUp(float x, float y)
 {
