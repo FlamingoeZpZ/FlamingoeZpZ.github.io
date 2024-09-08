@@ -259,7 +259,7 @@ class Animation
     }
   }
 
-  public Animation(String path, String extension, int len, int rate, boolean cancelable, float scale)
+  public Animation(String path, String extension, int len, int rate, boolean cancelable, float s)
   {
     images = new PImage[len];
     this.rate = rate;
@@ -267,7 +267,7 @@ class Animation
     for (int i = 0; i < len; ++i)
     {
       images[i] = loadImage(path + i + extension);
-      images[i].resize((int)(images[i].width * scale), (int)(images[i].height* scale));
+      images[i].resize((int)(images[i].width * s), (int)(images[i].height* s));
     }
   }
 }
@@ -318,7 +318,7 @@ class Effect
 
   float x;
   float y;
-  float scale = 1;
+  float s = 1;
 
   Effect(Animation anim, float x, float y)
   {
@@ -334,8 +334,8 @@ class Effect
     animator.setAnimation(anim);
     this.target = target;
     
-    //Ensure we scale according to target size (This is a bit lazy though as it only does X)
-    this.scale = target.scale * (target.img.width/anim.images[0].width)/2;
+    //Ensure we s according to target size (This is a bit lazy though as it only does X)
+    this.s = target.s * (target.img.width/anim.images[0].width)/2;
   }
 
   void display() {
@@ -351,7 +351,7 @@ class Effect
     println("( " + x + ", " + y + ")");
     pushMatrix();
     translate(x,y);
-    scale(scale, scale);
+    s(s, s);
     image(animator.getCurrentImage(), 0, 0);
     popMatrix();
 
@@ -369,7 +369,7 @@ abstract class GameObject
 
   float w;
   float h;
-  float scale = 1;
+  float s = 1;
 
   PImage img;
 
@@ -388,15 +388,15 @@ abstract class GameObject
     //pushMatrix();
     //Move image to 0,0
     //translate(-x,-y);
-    //Scale the image
-    //scale(scale, scale);
+    //s the image
+    //s(s, s);
     //Move image to final position
     image(img, x, y);
     //popMatrix();
 
     //Optional debug hitbox
     //fill(255,255,255,100);
-    //rect(x,y,w*scale,h*scale);
+    //rect(x,y,w*s,h*s);
     if (player.health != 0) 
     { 
       update();
@@ -410,19 +410,19 @@ abstract class GameObject
 
   float top()
   {
-    return y-scale*h/2;
+    return y-s*h/2;
   }
   float bottom()
   {
-    return y+scale*h/2;
+    return y+s*h/2;
   }
   float left()
   {
-    return x-scale*w/2;
+    return x-s*w/2;
   }
   float right()
   {
-    return x+scale*w/2;
+    return x+s*w/2;
   }
 
   boolean collide(GameObject other)
@@ -658,16 +658,16 @@ class Obelisk extends GameObject implements IDamagable
   void handleDetection()
   {
     //Step 1 (Target center of the player)
-    float xDist = player.x + (player.w * player.scale)/2 - x - camX;
-    float yDist = player.y + (player.h * player.scale)/2 - y - camY;
+    float xDist = player.x + (player.w * player.s)/2 - x - camX;
+    float yDist = player.y + (player.h * player.s)/2 - y - camY;
 
     //Step 2
     float dist = sqrt(xDist*xDist+yDist*yDist);
 
     //fill(0,255,0,120);
-    //rect(player.x  - camX, player.y - camY, (player.w * player.scale)/2,  (player.h * player.scale)/2);
-    //line( x, y,player.x + (player.w * player.scale)/2  - camX,   player.y + (player.h * player.scale)/2 - camY);
-    //line( x, y,player.x + (player.w * player.scale)/2  - camX + player.xSpeed * 5,   player.y + (player.h * player.scale)/2 - camY + player.ySpeed * 5 );
+    //rect(player.x  - camX, player.y - camY, (player.w * player.s)/2,  (player.h * player.s)/2);
+    //line( x, y,player.x + (player.w * player.s)/2  - camX,   player.y + (player.h * player.s)/2 - camY);
+    //line( x, y,player.x + (player.w * player.s)/2  - camX + player.xSpeed * 5,   player.y + (player.h * player.s)/2 - camY + player.ySpeed * 5 );
     //fill(255,0,0,20);
     //circle(x,y,obeliskRange*2);
 
@@ -689,8 +689,8 @@ class Obelisk extends GameObject implements IDamagable
   void shoot()
   {
     //Step 1 (Target center of the player AND predict the players movement 5 ticks forward)
-    float xDist = player.x + (player.w * player.scale)/2 + player.xSpeed * 5 - x - camX;
-    float yDist = player.y + (player.h * player.scale)/2 + player.ySpeed * 5 - y - camY;
+    float xDist = player.x + (player.w * player.s)/2 + player.xSpeed * 5 - x - camX;
+    float yDist = player.y + (player.h * player.s)/2 + player.ySpeed * 5 - y - camY;
 
     //Step 2
     float dist = sqrt(xDist*xDist+yDist*yDist);
@@ -736,24 +736,24 @@ class Player extends GameObject implements IDamagable, IUpgradable
   Player(float x, float y)
   {
     super(toadIdle.images[0], x, y);
-    scale = 0.33;
+    s = 0.33;
     animator.setAnimation(toadIdle);
     health = maxHealth;
   }
 
   void display()
   {
-    float scaleW = w * scale;
-    float bot = y + h/2 * scale + 20;
+    float sW = w * s;
+    float bot = y + h/2 * s + 20;
     fill(0);
-    rect(x - scaleW/2, bot, scaleW, 10);
+    rect(x - sW/2, bot, sW, 10);
     fill(20, 0, 120);
-    rect(x-2 - scaleW/2, bot-2, (scaleW-2) * (health/maxHealth), 10-2);
+    rect(x-2 - sW/2, bot-2, (sW-2) * (health/maxHealth), 10-2);
 
 
     pushMatrix();
     translate(x, y);
-    scale(scale, scale);
+    scale(s, s);
 
     if (!isFacingRight)
     {
@@ -780,19 +780,19 @@ class Player extends GameObject implements IDamagable, IUpgradable
 
   void lockToScreen()
   {
-    if (x > width - w/2 * scale)
+    if (x > width - w/2 * s)
     {
-      x = width - w/2 * scale;
-    } else if (x <  w/2 * scale)
+      x = width - w/2 * s;
+    } else if (x <  w/2 * s)
     {
-      x =  w/2 * scale;
+      x =  w/2 * s;
     }
-    if (y < h/2 * scale)
+    if (y < h/2 * s)
     {
-      y = h/2 * scale;
-    } else if (y > height - h/2 * scale)
+      y = h/2 * s;
+    } else if (y > height - h/2 * s)
     {
-      y = height - h/2 * scale;
+      y = height - h/2 * s;
     }
   }
 
@@ -857,7 +857,7 @@ class Player extends GameObject implements IDamagable, IUpgradable
   void ApplyUpgrade(StatUpgrade stats)
   {
 
-    scale = min(scale * stats.scaleChange, 3);
+    s = min(s * stats.sChange, 3);
     speed = min(speed * stats.speedChange, 15);
     maxHealth =  min(maxHealth * stats.maxHealthChange, 250);
     health = min((health + stats.healthChange) * stats.maxHealthChange, maxHealth);
@@ -879,8 +879,8 @@ class Player extends GameObject implements IDamagable, IUpgradable
   }
 }
 
-//float scaleChange, float speedChange, float healthChange, float maxHealthChange
-StatUpgrade scaleBooster = new StatUpgrade(1.2, 0.9, 5, 1.25);
+//float sChange, float speedChange, float healthChange, float maxHealthChange
+StatUpgrade sBooster = new StatUpgrade(1.2, 0.9, 5, 1.25);
 StatUpgrade healthBooster = new StatUpgrade(0.9, 1.1, 15, 1);
 StatUpgrade speedBooster =  new StatUpgrade(1, 1.2, 0, 1);
 StatUpgrade maxHealthBooster = new StatUpgrade(1, 0.9, 15, 1.5);
@@ -890,7 +890,7 @@ PowerUp chooseRandomPowerUp(float x, float y)
   float rng = random(1);
 
   //25% for french fly
-  if (rng < 0.25f) return new PowerUp(frenchFlyImg, scaleBooster, x, y);
+  if (rng < 0.25f) return new PowerUp(frenchFlyImg, sBooster, x, y);
   //25% for tadpole
   if (rng < 0.5f) return new PowerUp(tadpoleImg, healthBooster, x, y);
   //25% for bigLegs
@@ -903,14 +903,14 @@ PowerUp chooseRandomPowerUp(float x, float y)
 public class StatUpgrade
 {
   //Final means constant
-  final float scaleChange;
+  final float sChange;
   final float speedChange;
   final float healthChange;
   final float maxHealthChange;
 
-  StatUpgrade(float scaleChange, float speedChange, float healthChange, float maxHealthChange)
+  StatUpgrade(float sChange, float speedChange, float healthChange, float maxHealthChange)
   {
-    this.scaleChange = scaleChange;
+    this.sChange = sChange;
     this.speedChange = speedChange;
     this.healthChange = healthChange;
     this.maxHealthChange = maxHealthChange;
