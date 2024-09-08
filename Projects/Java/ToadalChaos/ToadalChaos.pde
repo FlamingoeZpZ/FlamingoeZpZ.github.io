@@ -16,8 +16,9 @@
  "data/Gameplay/explosion0.png",
  "data/Gameplay/explosion1.png", "data/Gameplay/explosion2.png",
  "data/Gameplay/explosion3.png", "data/Wasp/wasp0.png",
- "data/Wasp/wasp1.png", "data/Powerups/Effect/upgrade0.png","data/Powerups/Effect/upgrade1.png",
- "data/Powerups/Effect/upgrade2.png""data/Powerups/Effect/upgrade3.png", "data/Powerups/Effect/upgrade4.png"; */
+ "data/Wasp/wasp1.png", "data/Powerups/Effect/upgrade0.png", 
+ "data/Powerups/Effect/upgrade1.png", "data/Powerups/Effect/upgrade2.png", 
+ "data/Powerups/Effect/upgrade3.png", "data/Powerups/Effect/upgrade4.png"; */
 
 
 //Step 1 - Create a variable
