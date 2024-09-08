@@ -60,7 +60,7 @@ void draw()
 {
   if (!isGameRunning)
   {
-    background(coverArt);
+    image(coverArt,width/2,height/2);
     return;
   }
 
@@ -160,6 +160,7 @@ void draw()
     fill(0, 0, 0);
     textSize(96);
     text("GAME OVER\nTry Again?", width/2, height/2);
+    return;
   }
 
   int currentTime = millis();
@@ -349,7 +350,6 @@ class Effect
       x = target.midX();
       y = target.midY();
     }
-    println("( " + x + ", " + y + ")");
     pushMatrix();
     translate(x,y);
     scale(s, s);
@@ -852,7 +852,7 @@ class Player extends GameObject implements IDamagable, IUpgradable
   }
   void onDefeated()
   {
-    println("Game Over");
+    println("Game Over: " + score);
   }
 
   void ApplyUpgrade(StatUpgrade stats)
@@ -938,12 +938,10 @@ class PowerUp extends GameObject implements IDamagable
 
   void ApplyTo(IUpgradable target)
   {
-    println("Applied 1 ");
     target.ApplyUpgrade(upgrade);
     targets.remove(this);
     if(target instanceof GameObject)
     {
-      println("Applied 2 ");
       new Effect(collection, (GameObject)target);
     }
     
@@ -956,6 +954,7 @@ class PowerUp extends GameObject implements IDamagable
   void onDefeated()
   {
     powerups.remove(this);
+    targets.remove(this);
     new Effect(explosion, x, y);
   }
   boolean collide(GameObject other)
