@@ -38,7 +38,8 @@ int floorsGenerated;
 
 boolean isGameOver;
 
-
+float hw;
+float hh;
 void setup()
 {
   size(900, 675);
@@ -46,10 +47,13 @@ void setup()
   imageMode(CENTER);
   textAlign(CENTER);
   colorMode(HSB, 360, 100, 100);
+  hw = width/2;
+  hh = height/2 - (112);
   reset();
 }
 
 float t = 0;
+
 void draw()
 {
   //HexCode
@@ -59,7 +63,7 @@ void draw()
   
  
   //281 is just some magic number based on the image.
-  image(bg,width/2, int(floor(camY/4) % 210) + height/2 - (112) );
+  image(bg, hw, int(floor(camY/4) % 210 + hh));
   
   ///camY %= k + height/2;
   for (int i = 0; i < floors.length; i += 1)
@@ -67,7 +71,6 @@ void draw()
     floors[i].display();
   }
   fill(255);
-   text(frameRate, 100, 100);
   textSize(32);
   text("SCORE: " + (floorsGenerated-floors.length), 100, 40);
 
