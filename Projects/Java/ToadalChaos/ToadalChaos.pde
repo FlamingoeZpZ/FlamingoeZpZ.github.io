@@ -351,7 +351,7 @@ class Effect
     println("( " + x + ", " + y + ")");
     pushMatrix();
     translate(x,y);
-    s(s, s);
+    scale(s, s);
     image(animator.getCurrentImage(), 0, 0);
     popMatrix();
 
