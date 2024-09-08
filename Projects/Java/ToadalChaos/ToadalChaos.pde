@@ -748,7 +748,7 @@ class Player extends GameObject implements IDamagable, IUpgradable
     float bot = y + h/2 * s + 20;
     fill(0);
     rect(x - sW/2, bot, sW, 10);
-    fill(20, 0, 120);
+    fill(120, 0, 20);
     rect(x-2 - sW/2, bot-2, (sW-2) * (health/maxHealth), 10-2);
 
 
