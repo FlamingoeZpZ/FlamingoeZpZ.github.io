@@ -1,24 +1,23 @@
-
-/* @pjs preload="data1/Powerups/flyfooditem.png", "data1/Powerups/tadpole.png",
- "data1/Powerups/biglegs.png", "data1/Powerups/turtleshell.png",
- "data1/Powerups/poweruptrap.png", "data1/Backgrounds/swamp.jpg",
- "data1/Backgrounds/cover.jpg", "data1/Toad/toadidle0.png",
- "data1/Toad/toadidle1.png", "data1/Toad/toadidle2.png",
- "data1/Toad/toadidle3.png", "data1/Toad/toadidle4.png",
- "data1/Toad/toadjump0.png", "data1/Toad/toadjump1.png",
- "data1/Toad/toadjump2.png", "data1/Toad/toadjump3.png",
- "data1/Toad/toadhurt0.png", "data1/Obelisk/obeliskshoot0.png",
- "data1/Obelisk/obeliskshoot1.png", "data1/Obelisk/obeliskshoot2.png",
- "data1/Obelisk/obeliskshoot3.png", "data1/Obelisk/obeliskshoot4.png",
- "data1/Obelisk/obeliskidle0.png", "data1/Obelisk/obeliskidle1.png",
- "data1/Obelisk/obeliskidle2.png", "data1/Obelisk/obeliskidle3.png",
- "data1/Obelisk/obelisksleep0.png", "data1/Obelisk/obelisksleep1.png",
- "data1/Obelisk/obelisksleep2.png","data1/Obelisk/projectile.png",
- "data1/Gameplay/explosion0.png",
- "data1/Gameplay/explosion1.png", "data1/Gameplay/explosion2.png",
- "data1/Gameplay/explosion3.png", "data1/Wasp/wasp0.png",
- "data1/Wasp/wasp1.png"; */
-
+/* @pjs preload="data/Powerups/flyfooditem.png", "data/Powerups/tadpole.png",
+ "data/Powerups/biglegs.png", "data/Powerups/turtleshell.png",
+ "data/Powerups/poweruptrap.png", "data/Backgrounds/swamp.jpg",
+ "data/Backgrounds/cover.jpg", "data/Toad/toadidle0.png",
+ "data/Toad/toadidle1.png", "data/Toad/toadidle2.png",
+ "data/Toad/toadidle3.png", "data/Toad/toadidle4.png",
+ "data/Toad/toadjump0.png", "data/Toad/toadjump1.png",
+ "data/Toad/toadjump2.png", "data/Toad/toadjump3.png",
+ "data/Toad/toadhurt0.png", "data/Obelisk/obeliskshoot0.png",
+ "data/Obelisk/obeliskshoot1.png", "data/Obelisk/obeliskshoot2.png",
+ "data/Obelisk/obeliskshoot3.png", "data/Obelisk/obeliskshoot4.png",
+ "data/Obelisk/obeliskidle0.png", "data/Obelisk/obeliskidle1.png",
+ "data/Obelisk/obeliskidle2.png", "data/Obelisk/obeliskidle3.png",
+ "data/Obelisk/obelisksleep0.png", "data/Obelisk/obelisksleep1.png",
+ "data/Obelisk/obelisksleep2.png","data/Obelisk/projectile.png",
+ "data/Gameplay/explosion0.png",
+ "data/Gameplay/explosion1.png", "data/Gameplay/explosion2.png",
+ "data/Gameplay/explosion3.png", "data/Wasp/wasp0.png",
+ "data/Wasp/wasp1.png", "data/Powerups/Effect/upgrade0.png","data/Powerups/Effect/upgrade1.png",
+ "data/Powerups/Effect/upgrade2.png""data/Powerups/Effect/upgrade3.png", "data/Powerups/Effect/upgrade4.png"; */
 
 
 //Step 1 - Create a variable
@@ -33,10 +32,15 @@ ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 ArrayList<IDamagable> targets = new ArrayList<IDamagable>();
 ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
 ArrayList<Wasp> wasps = new ArrayList<Wasp>();
+ArrayList<Effect> effects = new ArrayList<Effect>();
+
 
 boolean isGameRunning;
 int score;
 int level;
+
+int currentSpawnTime;
+int previousTime;
 
 void setup()
 {
@@ -55,7 +59,7 @@ void draw()
 {
   if (!isGameRunning)
   {
-    image(coverArt, width/2, height/2);
+    background(coverArt);
     return;
   }
 
@@ -101,7 +105,7 @@ void draw()
     current.display();
     if (current.collide(player))
     {
-      player.ApplyUpgrade(current.upgrade);
+      current.ApplyTo(player);
       powerups.remove(i);
     }
   }
@@ -116,7 +120,10 @@ void draw()
     wasps.get(i).display();
   }
 
+
+
   popMatrix();
+
 
   //Render the player
 
@@ -124,6 +131,15 @@ void draw()
 
   //Step 3 - Use
   player.display();
+
+  pushMatrix();
+  translate(camX, camY);
+  for (int i = effects.size()-1; i >= 0; i-=1)
+  {
+    effects.get(i).display();
+  }
+  popMatrix();
+
 
   fill(0, 0, 0);
   textSize(50);
@@ -143,6 +159,17 @@ void draw()
     fill(0, 0, 0);
     textSize(96);
     text("GAME OVER\nTry Again?", width/2, height/2);
+  }
+
+  int currentTime = millis();
+  int deltaTime = currentTime - previousTime;
+  previousTime = currentTime;
+  currentSpawnTime += deltaTime;
+  if (currentSpawnTime > spawnTime)
+  {
+    //Spawn a powerup anywhere in the game
+    chooseRandomPowerUp(random(trueWidth), random(trueHeight));
+    currentSpawnTime = 0; // Reset timer
   }
 }
 
@@ -178,6 +205,8 @@ void reset()
   score = 0;
   level = 0;
 
+
+
   obeliskRange = startRange;
   obeliskFireTime = startFireTime;
   projectileSpeed = startSpeed;
@@ -186,6 +215,7 @@ void reset()
   powerups.clear();
   targets.clear();
   wasps.clear();
+  effects.clear();
 
   //Step 2 - Initialize
   player = new Player(width/2, height/2); //x, y, speed (Based on constructor)
@@ -198,6 +228,9 @@ void reset()
 
   camX = player.x-width/2;
   camY = player.y-height/2;
+
+  currentSpawnTime = 0;
+  previousTime = millis();
 }
 
 void levelUp()
@@ -226,7 +259,7 @@ class Animation
     }
   }
 
-  public Animation(String path, String extension, int len, int rate, boolean cancelable, float s)
+  public Animation(String path, String extension, int len, int rate, boolean cancelable, float scale)
   {
     images = new PImage[len];
     this.rate = rate;
@@ -234,7 +267,7 @@ class Animation
     for (int i = 0; i < len; ++i)
     {
       images[i] = loadImage(path + i + extension);
-      images[i].resize((int)(images[i].width * s), (int)(images[i].height* s));
+      images[i].resize((int)(images[i].width * scale), (int)(images[i].height* scale));
     }
   }
 }
@@ -271,10 +304,61 @@ class Animator
     isLastTick = false;
     return false;
   }
-
+  
   PImage getCurrentImage()
   {
     return currentAnim.images[currentFrame];
+  }
+}
+
+class Effect
+{
+  GameObject target;
+  Animator animator = new Animator();
+
+  float x;
+  float y;
+  float scale = 1;
+
+  Effect(Animation anim, float x, float y)
+  {
+    effects.add(this);
+    animator.setAnimation(anim);
+    this.x = x;
+    this.y = y;
+  }
+
+  Effect(Animation anim, GameObject target)
+  {
+    effects.add(this);
+    animator.setAnimation(anim);
+    this.target = target;
+    
+    //Ensure we scale according to target size (This is a bit lazy though as it only does X)
+    this.scale = target.scale * (target.img.width/anim.images[0].width)/2;
+  }
+
+  void display() {
+
+    if (player.health == 0) return;
+    
+    //If we have a target
+    if (target != null)
+    {
+      x = target.midX();
+      y = target.midY();
+    }
+    println("( " + x + ", " + y + ")");
+    pushMatrix();
+    translate(x,y);
+    scale(scale, scale);
+    image(animator.getCurrentImage(), 0, 0);
+    popMatrix();
+
+    if (animator.updateAnimation())
+    {
+      effects.remove(this);
+    }
   }
 }
 
@@ -285,7 +369,7 @@ abstract class GameObject
 
   float w;
   float h;
-  float s = 1;
+  float scale = 1;
 
   PImage img;
 
@@ -304,17 +388,17 @@ abstract class GameObject
     //pushMatrix();
     //Move image to 0,0
     //translate(-x,-y);
-    //s the image
-    //s(s, s);
+    //Scale the image
+    //scale(scale, scale);
     //Move image to final position
     image(img, x, y);
     //popMatrix();
 
     //Optional debug hitbox
     //fill(255,255,255,100);
-    //rect(x,y,w*s,h*s);
-    if (player.health != 0)
-    {
+    //rect(x,y,w*scale,h*scale);
+    if (player.health != 0) 
+    { 
       update();
     }
   }
@@ -322,21 +406,23 @@ abstract class GameObject
 
   abstract void update();
 
+  
+
   float top()
   {
-    return y-s*h/2;
+    return y-scale*h/2;
   }
   float bottom()
   {
-    return y+s*h/2;
+    return y+scale*h/2;
   }
   float left()
   {
-    return x-s*w/2;
+    return x-scale*w/2;
   }
   float right()
   {
-    return x+s*w/2;
+    return x+scale*w/2;
   }
 
   boolean collide(GameObject other)
@@ -347,6 +433,16 @@ abstract class GameObject
       return true;
     }
     return false;
+  }
+  
+  float midX()
+  {
+    return x;
+  }
+  
+  float midY()
+  {
+    return y;
   }
 }
 
@@ -363,39 +459,46 @@ PImage powerupTrap;
 Animation toadIdle;
 Animation toadJump;
 Animation toadHurt;
+
 Animation obeliskShoot;
 Animation obeliskIdle;
 Animation obeliskAwaken;
 Animation obeliskSleep;
 
 Animation explosion;
+Animation collection;
+
 Animation waspFly;
+
 
 void loadImages()
 {
-  frenchFlyImg = loadImage("data1/Powerups/flyfooditem.png");
-  tadpoleImg = loadImage("data1/Powerups/tadpole.png");
-  bigLegsImg = loadImage("data1/Powerups/biglegs.png");
-  turtleShellImg = loadImage("data1/Powerups/turtleshell.png");
-  powerupTrap = loadImage("data1/Powerups/poweruptrap.png");
+  frenchFlyImg = loadImage("data/Powerups/flyfooditem.png");
+  tadpoleImg = loadImage("data/Powerups/tadpole.png");
+  bigLegsImg = loadImage("data/Powerups/biglegs.png");
+  turtleShellImg = loadImage("data/Powerups/turtleshell.png");
+  powerupTrap = loadImage("data/Powerups/poweruptrap.png");
 
-  bg = loadImage("data1/Backgrounds/swamp.jpg");
+  bg = loadImage("data/Backgrounds/swamp.jpg");
   bg.resize(2000, 2000);
-  coverArt = loadImage("data1/Backgrounds/cover.jpg");
+  coverArt = loadImage("data/Backgrounds/cover.jpg");
 
   //Location, Suffix, Rate, Length, isCancelable, (optional) s
-  toadIdle = new Animation("data1/Toad/toadidle", ".png", 5, 5, true, 1);
-  toadJump= new Animation("data1/Toad/toadjump", ".png", 5, 4, true, 1);
-  toadHurt = new Animation("data1/Toad/toadhurt", ".png", 1, 15, false, 1);
+  toadIdle = new Animation("data/Toad/toadidle", ".png", 5, 5, true, 1);
+  toadJump= new Animation("data/Toad/toadjump", ".png", 5, 4, true, 1);
+  toadHurt = new Animation("data/Toad/toadhurt", ".png", 1, 15, false, 1);
 
-  obeliskShoot =  new Animation("data1/Obelisk/obeliskshoot", ".png", 5, 5, true, 0.25f);
-  obeliskIdle = new Animation("data1/Obelisk/obeliskidle", ".png", 1, 1, true, 0.25f);
-  obeliskAwaken = new Animation("data1/Obelisk/obeliskidle", ".png", 4, 5, true, 0.25f);
-  obeliskSleep = new Animation("data1/Obelisk/obelisksleep", ".png", 3, 5, true, 0.25f);
-  explosion = new Animation("data1/Gameplay/explosion", ".png", 4, 4, false, 0.25f);
-  projectileImg = loadImage("data1/Obelisk/projectile.png");
+  obeliskShoot =  new Animation("data/Obelisk/obeliskshoot", ".png", 5, 5, true, 0.25f);
+  obeliskIdle = new Animation("data/Obelisk/obeliskidle", ".png", 1, 1, true, 0.25f);
+  obeliskAwaken = new Animation("data/Obelisk/obeliskidle", ".png", 4, 5, true, 0.25f);
+  obeliskSleep = new Animation("data/Obelisk/obelisksleep", ".png", 3, 5, true, 0.25f);
+  
+  explosion = new Animation("data/Gameplay/explosion", ".png", 4, 4, false, 0.25f);
+  collection = new Animation("data/Powerups/Effect/upgrade", ".png",5,4,false,0.5f);
 
-  waspFly = new Animation("data1/Wasp/wasp", ".png", 2, 3, true, 0.5f);
+  waspFly = new Animation("data/Wasp/wasp", ".png", 2, 3, true, 0.5f);
+  
+  projectileImg = loadImage("data/Obelisk/projectile.png");
 }
 
 boolean up;
@@ -425,22 +528,22 @@ void keyPressed()
 
   if (key == 'd' || key == 'D' || keyCode == RIGHT)
   {
-    right = true;
+    right = true;  
     player.xSpeed = player.speed;
   }
   if (key == 'a' || key == 'A' || keyCode == LEFT)
   {
-    left = true;
+    left = true;  
     player.xSpeed = -player.speed;
   }
   if (key == 'w' || key == 'W' || keyCode == UP)
   {
-    up = true;
+    up = true; 
     player.ySpeed = -player.speed;
   }
   if (key == 's' || key == 'S' || keyCode == DOWN)
   {
-    down = true;
+    down = true;  
     player.ySpeed = player.speed;
   }
 }
@@ -449,7 +552,7 @@ void keyReleased()
 {
   if (key == 'd' || key == 'D' || keyCode == RIGHT)
   {
-    right = false;
+    right = false;  
     player.xSpeed = 0;
 
     //if we're holding opposite direction, let's move there
@@ -460,7 +563,7 @@ void keyReleased()
   }
   if (key == 'a' || key == 'A' || keyCode == LEFT)
   {
-    left = false;
+    left = false;  
     player.xSpeed = 0;
 
     //if we're holding opposite direction, let's move there
@@ -471,7 +574,7 @@ void keyReleased()
   }
   if (key == 'w' || key == 'W' || keyCode == UP)
   {
-    up = false;
+    up = false; 
     player.ySpeed = 0;
 
     //if we're holding opposite direction, let's move there
@@ -482,7 +585,7 @@ void keyReleased()
   }
   if (key == 's' || key == 'S' || keyCode == DOWN)
   {
-    down = false;
+    down = false;  
     player.ySpeed = 0;
 
     //if we're holding opposite direction, let's move there
@@ -505,8 +608,6 @@ interface IUpgradable
   void ApplyUpgrade(StatUpgrade stats);
 }
 
-//Intentional git conflict in all files when merging so we can take old version every time?
-//Still will need to delete old files manually.
 class Obelisk extends GameObject implements IDamagable
 {
 
@@ -528,10 +629,6 @@ class Obelisk extends GameObject implements IDamagable
 
   void update()
   {
-    fill(255, 0, 0);
-    textSize(32);
-
-
     img = animator.getCurrentImage();
 
     if (animator.updateAnimation())
@@ -544,7 +641,7 @@ class Obelisk extends GameObject implements IDamagable
         shoot();
       } else if (animator.currentAnim == obeliskSleep)
       {
-         animator.setAnimation(obeliskIdle);
+        animator.setAnimation(obeliskIdle);
       } else if (animator.currentAnim == explosion)
       {
         onDefeated();
@@ -561,23 +658,20 @@ class Obelisk extends GameObject implements IDamagable
   void handleDetection()
   {
     //Step 1 (Target center of the player)
-    float xDist = player.x - x - camX;
-    float yDist = player.y - y - camY;
+    float xDist = player.x + (player.w * player.scale)/2 - x - camX;
+    float yDist = player.y + (player.h * player.scale)/2 - y - camY;
 
     //Step 2
     float dist = sqrt(xDist*xDist+yDist*yDist);
 
     //fill(0,255,0,120);
-    //rect(player.x  - camX, player.y - camY, (player.w * player.s)/2,  (player.h * player.s)/2);
-    //line( x, y,player.x + (player.w * player.s)/2  - camX,   player.y + (player.h * player.s)/2 - camY);
-    //line( x, y,player.x + (player.w * player.s)/2  - camX + player.xSpeed * 5,   player.y + (player.h * player.s)/2 - camY + player.ySpeed * 5 );
+    //rect(player.x  - camX, player.y - camY, (player.w * player.scale)/2,  (player.h * player.scale)/2);
+    //line( x, y,player.x + (player.w * player.scale)/2  - camX,   player.y + (player.h * player.scale)/2 - camY);
+    //line( x, y,player.x + (player.w * player.scale)/2  - camX + player.xSpeed * 5,   player.y + (player.h * player.scale)/2 - camY + player.ySpeed * 5 );
     //fill(255,0,0,20);
     //circle(x,y,obeliskRange*2);
 
     //Step 3
-
-
-    //If we're in range
     if (dist < obeliskRange )
     {
       //If not currentlu shooting
@@ -595,8 +689,8 @@ class Obelisk extends GameObject implements IDamagable
   void shoot()
   {
     //Step 1 (Target center of the player AND predict the players movement 5 ticks forward)
-    float xDist = player.x + player.xSpeed * 5 - x - camX;
-    float yDist = player.y + player.ySpeed * 5 - y - camY;
+    float xDist = player.x + (player.w * player.scale)/2 + player.xSpeed * 5 - x - camX;
+    float yDist = player.y + (player.h * player.scale)/2 + player.ySpeed * 5 - y - camY;
 
     //Step 2
     float dist = sqrt(xDist*xDist+yDist*yDist);
@@ -607,7 +701,6 @@ class Obelisk extends GameObject implements IDamagable
 
     //Step 4 Reset ourselves
     fireTime = 0;
-    animator.setAnimation(obeliskShoot);
 
     //Step 5 Fire the projectile
     //Note: x and y position may need to be shifted
@@ -624,7 +717,6 @@ class Obelisk extends GameObject implements IDamagable
     fireTime = 0;
     placeRandom();
     animator.setAnimation(obeliskIdle);
-    score += 1000;
   }
 }
 
@@ -644,24 +736,24 @@ class Player extends GameObject implements IDamagable, IUpgradable
   Player(float x, float y)
   {
     super(toadIdle.images[0], x, y);
-    s = 0.33;
+    scale = 0.33;
     animator.setAnimation(toadIdle);
     health = maxHealth;
   }
 
   void display()
   {
-    float sW = w * s;
-    float bot = y + h/2 * s + 20;
+    float scaleW = w * scale;
+    float bot = y + h/2 * scale + 20;
     fill(0);
-    rect(x - sW/2, bot, sW, 10);
-    fill(120, 0, 0);
-    rect(x-2 - sW/2, bot-2, (sW-2) * (health/maxHealth), 10-2);
+    rect(x - scaleW/2, bot, scaleW, 10);
+    fill(20, 0, 120);
+    rect(x-2 - scaleW/2, bot-2, (scaleW-2) * (health/maxHealth), 10-2);
 
 
     pushMatrix();
     translate(x, y);
-    scale(s, s);
+    scale(scale, scale);
 
     if (!isFacingRight)
     {
@@ -688,19 +780,19 @@ class Player extends GameObject implements IDamagable, IUpgradable
 
   void lockToScreen()
   {
-    if (x > width - w/2 * s)
+    if (x > width - w/2 * scale)
     {
-      x = width - w/2 * s;
-    } else if (x <  w/2 * s)
+      x = width - w/2 * scale;
+    } else if (x <  w/2 * scale)
     {
-      x =  w/2 * s;
+      x =  w/2 * scale;
     }
-    if (y < h/2 * s)
+    if (y < h/2 * scale)
     {
-      y = h/2 * s;
-    } else if (y > height - h/2 * s)
+      y = h/2 * scale;
+    } else if (y > height - h/2 * scale)
     {
-      y = height - h/2 * s;
+      y = height - h/2 * scale;
     }
   }
 
@@ -745,7 +837,7 @@ class Player extends GameObject implements IDamagable, IUpgradable
   float right()
   {
     return super.right() - camX;
-  }
+  }  
 
   void takeDamage(float damage)
   {
@@ -759,13 +851,13 @@ class Player extends GameObject implements IDamagable, IUpgradable
   }
   void onDefeated()
   {
-    println("Game Over, Scored: " + score);
+    println("Game Over");
   }
 
   void ApplyUpgrade(StatUpgrade stats)
   {
 
-    s = min(s * stats.sChange, 3);
+    scale = min(scale * stats.scaleChange, 3);
     speed = min(speed * stats.speedChange, 15);
     maxHealth =  min(maxHealth * stats.maxHealthChange, 250);
     health = min((health + stats.healthChange) * stats.maxHealthChange, maxHealth);
@@ -775,10 +867,20 @@ class Player extends GameObject implements IDamagable, IUpgradable
       onDefeated();
     }
   }
+  
+  float midX()
+  {
+    return x - camX;
+  }
+
+  float midY()
+  {
+    return y - camY;
+  }
 }
 
-//float sChange, float speedChange, float healthChange, float maxHealthChange
-StatUpgrade sBooster = new StatUpgrade(1.2, 0.9, 5, 1.25);
+//float scaleChange, float speedChange, float healthChange, float maxHealthChange
+StatUpgrade scaleBooster = new StatUpgrade(1.2, 0.9, 5, 1.25);
 StatUpgrade healthBooster = new StatUpgrade(0.9, 1.1, 15, 1);
 StatUpgrade speedBooster =  new StatUpgrade(1, 1.2, 0, 1);
 StatUpgrade maxHealthBooster = new StatUpgrade(1, 0.9, 15, 1.5);
@@ -788,7 +890,7 @@ PowerUp chooseRandomPowerUp(float x, float y)
   float rng = random(1);
 
   //25% for french fly
-  if (rng < 0.25f) return new PowerUp(frenchFlyImg, sBooster, x, y);
+  if (rng < 0.25f) return new PowerUp(frenchFlyImg, scaleBooster, x, y);
   //25% for tadpole
   if (rng < 0.5f) return new PowerUp(tadpoleImg, healthBooster, x, y);
   //25% for bigLegs
@@ -801,21 +903,21 @@ PowerUp chooseRandomPowerUp(float x, float y)
 public class StatUpgrade
 {
   //Final means constant
-  final float sChange;
+  final float scaleChange;
   final float speedChange;
   final float healthChange;
   final float maxHealthChange;
 
-  StatUpgrade(float sChange, float speedChange, float healthChange, float maxHealthChange)
+  StatUpgrade(float scaleChange, float speedChange, float healthChange, float maxHealthChange)
   {
-    this.sChange = sChange;
+    this.scaleChange = scaleChange;
     this.speedChange = speedChange;
     this.healthChange = healthChange;
     this.maxHealthChange = maxHealthChange;
   }
 }
 
-class PowerUp extends GameObject
+class PowerUp extends GameObject implements IDamagable
 {
 
   StatUpgrade upgrade;
@@ -825,6 +927,7 @@ class PowerUp extends GameObject
     super(image, x, y);
     this.upgrade = upgrade;
     powerups.add(this);
+    targets.add(this);
   }
 
   void update()
@@ -834,7 +937,29 @@ class PowerUp extends GameObject
 
   void ApplyTo(IUpgradable target)
   {
+    println("Applied 1 ");
     target.ApplyUpgrade(upgrade);
+    targets.remove(this);
+    if(target instanceof GameObject)
+    {
+      println("Applied 2 ");
+      new Effect(collection, (GameObject)target);
+    }
+    
+  }
+
+  void takeDamage(float damage)
+  {
+    onDefeated();
+  }
+  void onDefeated()
+  {
+    powerups.remove(this);
+    new Effect(explosion, x, y);
+  }
+  boolean collide(GameObject other)
+  {
+    return super.collide(other);
   }
 }
 
@@ -842,9 +967,9 @@ class Projectile extends GameObject
 {
   float xSpeed;
   float ySpeed;
-
+  
   GameObject owner;
-
+  
   Projectile(GameObject owner, float x, float y, float xSpeed, float ySpeed)
   {
     super(projectileImg, x, y);
@@ -869,7 +994,7 @@ class Projectile extends GameObject
 int scoreReq = 5000;
 float rangeMulti = 1.2;
 float fireRateMulti = 0.9;
-float speedMulti = 1.05;
+float speedMulti = 1.05; 
 
 //Obelisk Settings
 float obeliskRange = 300;
@@ -885,6 +1010,9 @@ float deadZoneXMin = 200;
 float deadZoneXMax = 600;
 float deadZoneYMin = 200;
 float deadZoneYMax = 600;
+
+//Powerup Spawning
+float spawnTime = 15000; // 15 seconds.
 
 class Wasp extends GameObject
 {
@@ -909,12 +1037,9 @@ class Wasp extends GameObject
 
   void display()
   {
-
-
     pushMatrix();
 
     translate(x, y);
-
 
     if (isFacingRight)
     {
