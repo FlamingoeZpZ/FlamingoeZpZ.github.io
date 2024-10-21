@@ -1,1 +1,1 @@
-[Visit the website instead](FlamingoeZpZ.github.io)
+[Visit the website instead](https://FlamingoeZpZ.github.io)
