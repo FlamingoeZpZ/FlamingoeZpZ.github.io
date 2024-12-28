@@ -29,8 +29,8 @@ vec4 stars(vec2 st, float cells, float time, vec2 speed, vec3 color)
     //Sample over y --> X
     // y= mx+b
     // -1 = x/y
-    float up = 1. - fpos.x - fpos.y;
-    up += 1. - fpos.y-fpos.y*5.; // Strange sloping effect
+    float up = fpos.x - fpos.y;
+    up += fpos.y-fpos.y*5.; // Strange sloping effect
 
     float t = -0.120;
     up = step(t, up) * step(up, -t);
@@ -45,9 +45,27 @@ vec4 stars(vec2 st, float cells, float time, vec2 speed, vec3 color)
 }
 
 void main() {
-    //vec2 st = gl_FragCoord.xy/u_resolution;
+    vec2 uv = gl_FragCoord.xy/u_resolution;
     //woah
-    vec2 st = u_resolution/gl_FragCoord.xy;//.xy/u_resolution;
+    vec2 warpedUV = vec2(uv.x-0.5, uv.y-0.8);// - u_mouse/u_resolution;// u_resolution/gl_FragCoord.xy;//.xy/u_resolution;
+
+    //Polar co-ordinates
+    float r = length(warpedUV);
+    float theta  = atan(warpedUV.y/warpedUV.x) * 0.5;
+
+    float clampedTime=u_time;
+    float b = 0.744;
+
+
+    r += b * theta;
+
+    warpedUV.x = r;//r * cos(theta);
+    warpedUV.y = theta;//r * sin(theta);
+
+    //warpedUV.x = sqrt(warpedUV.x * warpedUV.x + warpedUV.y * warpedUV.y * (warpedUV.x * clampedTime + c) * (warpedUV.x * clampedTime + c));
+    //warpedUV.x =  (v*clampedTime + c) * cos(w) *clampedTime;//v * cos(w * clampedTime) - w * (v * clampedTime + c) * sin(w*clampedTime);
+    //warpedUV.y =  (v*clampedTime + c) * sin(w) * clampedTime;
+    //warpedUV.y = v * sin(w * clampedTime) + w * (v * clampedTime + c) * cos(w*clampedTime);
 
     //45 % 6 == 3
     //45 / 6 == 7(.5)
@@ -56,13 +74,14 @@ void main() {
     //float timeFrame=1000.;
     //float clampedTime = u_time - floor(u_time / timeFrame) * timeFrame;
 
-    float clampedTime=u_time;
+
 
     //Cells
-    vec4 stars1 = stars(st, 8., clampedTime, vec2(-0.6,0.1),vec3(1,0.9,0.9));
-    vec4 stars2 = stars(st, 32., clampedTime*0.1, vec2(-0.3,0.05),vec3(1,0.8,0.8));
-    vec4 stars3 = stars(st, 4., clampedTime, vec2(-1.2,0.2),vec3(1,1,1));
+    vec4 stars1 = stars(warpedUV, 16., clampedTime * 0.2, vec2(0.6,0.1),vec3(1,0.9,0.9));
+    vec4 stars2 = stars(warpedUV, 64., clampedTime * 0.1, vec2(0.3,0.05),vec3(1,0.8,0.8));
+    vec4 stars3 = stars(warpedUV, 8., clampedTime * 0.25, vec2(1.2,0.2),vec3(1,1,1));
 
     //
-    gl_FragColor =   stars1 + stars2+ stars3 + vec4(lerp(vec3(0.000,0.000,0.295),vec3(0.005,0.000,0.000), (gl_FragCoord.xy/u_resolution).y),1);
+    gl_FragColor =   stars1 + stars2+ stars3 + vec4(lerp(vec3(0.000,0.000,0.295),vec3(0.005,0.000,0.000), uv.y),1);
+    // gl_FragColor =  vec4(warpedUV,1,1);
 }

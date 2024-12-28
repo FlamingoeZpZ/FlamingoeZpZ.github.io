@@ -74,7 +74,7 @@
     <a href="https://flamingoezpz.itch.io/">Itch.io</a> <br>
     <a href="https://www.linkedin.com/in/gabe-kotton-b21050245/">LinkedIn</a>
 
-    <button id="loadShaderButton">Load Random Secondary Shader</button>
+    <!--<button id="loadShaderButton">Load Random Secondary Shader</button>-->
 
 </div>
 
@@ -177,7 +177,7 @@
              timeLocation = gl.getUniformLocation(program, "u_time");
         }
         
-        
+        /*
         document.getElementById("loadShaderButton").addEventListener("click", async () => {
             gl.detachShader(program, fragmentShader);
             fragmentShaderSource = await loadRandomSecondaryShader();
@@ -185,6 +185,7 @@
             gl.deleteProgram(program);
             createProgram();
         });
+         */
         
         // Fullscreen Quad Setup
         const positionBuffer = gl.createBuffer();
