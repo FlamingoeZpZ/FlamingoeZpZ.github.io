@@ -20,6 +20,13 @@ vec3 lerp(vec3 a, vec3 b, float t)
     return a + (b - a) * t;
 }
 
+float circle(vec2 uv, float x, float y) {
+    float xDist = x - uv.x;
+    float yDist = y - uv.y;
+    float dist = sqrt(xDist * xDist + yDist * yDist);
+    return 1.0 - dist;
+}
+
 vec4 stars(vec2 st, float cells, float time, vec2 speed, vec3 color)
 {
     vec2 cellCount = cells * (st + time * speed);
@@ -47,14 +54,20 @@ vec4 stars(vec2 st, float cells, float time, vec2 speed, vec3 color)
 void main() {
     vec2 uv = gl_FragCoord.xy/u_resolution;
     //woah
-    vec2 warpedUV = vec2(uv.x-0.5, uv.y-0.8);// - u_mouse/u_resolution;// u_resolution/gl_FragCoord.xy;//.xy/u_resolution;
+
+    float x = 0.5;
+    float y = 0.812;
+    vec2 warpedUV = vec2(uv.x, uv.y) - vec2(x,y);// - u_mouse/u_resolution;// u_resolution/gl_FragCoord.xy;//.xy/u_resolution;
+
+
+
 
     //Polar co-ordinates
     float r = length(warpedUV);
-    float theta  = atan(warpedUV.y/warpedUV.x) * 0.5;
+    float theta  = atan(warpedUV.y/warpedUV.x) * 1.164;
 
     float clampedTime=u_time;
-    float b = 0.744;
+    float b = 3.14;
 
 
     r += b * theta;
@@ -75,13 +88,23 @@ void main() {
     //float clampedTime = u_time - floor(u_time / timeFrame) * timeFrame;
 
 
+    vec3 colA = vec3(0.0, 0.0, 0.2);
+    vec3 colB = vec3(1.0, 0.0, 0.0);
+    //vec3 col = colorLerp(colA, colB, lerp);
+
+
+    float circleValue = circle(uv, x, y);
+    vec3 col = vec3(circleValue * circleValue * circleValue * circleValue * 1.176);//;
+
 
     //Cells
-    vec4 stars1 = stars(warpedUV, 16., clampedTime * 0.2, vec2(0.6,0.1),vec3(1,0.9,0.9));
-    vec4 stars2 = stars(warpedUV, 64., clampedTime * 0.1, vec2(0.3,0.05),vec3(1,0.8,0.8));
-    vec4 stars3 = stars(warpedUV, 8., clampedTime * 0.25, vec2(1.2,0.2),vec3(1,1,1));
+    vec4 stars1 = stars(warpedUV, 8., clampedTime, vec2(0.6,0.1),vec3(1,0.9,0.9));
+    vec4 stars2 = stars(warpedUV, 32., clampedTime * 0.1, vec2(0.3,0.05),vec3(1,0.8,0.8));
+    vec4 stars3 = stars(warpedUV, 4., clampedTime, vec2(1.2,0.2),vec3(1,1,1));
 
     //
-    gl_FragColor =   stars1 + stars2+ stars3 + vec4(lerp(vec3(0.000,0.000,0.295),vec3(0.005,0.000,0.000), uv.y),1);
-    // gl_FragColor =  vec4(warpedUV,1,1);
+    gl_FragColor =  (stars1 + stars2+ stars3 + vec4(lerp(vec3(0.000,0.000,0.295),vec3(0.005,0.000,0.000), uv.y),1)) + vec4(col,1);
+
+
+    //gl_FragColor =  vec4(warpedUV,1,1);
 }
