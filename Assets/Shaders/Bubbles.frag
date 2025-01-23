@@ -20,6 +20,18 @@ vec3 lerp(vec3 a, vec3 b, float t)
     return a + (b - a) * t;
 }
 
+float lerp(float a, float b, float t)
+{
+    return a + (b - a) * t;
+}
+
+float circle(vec2 uv, float x, float y) {
+    float xDist = x - uv.x;
+    float yDist = y - uv.y;
+    float dist = sqrt(xDist * xDist + yDist * yDist);
+    return 1.0 - dist;
+}
+
 vec4 stars(vec2 st, float cells, float time, vec2 speed, vec3 color)
 {
     vec2 cellCount = cells * (st + time * speed);
@@ -29,8 +41,8 @@ vec4 stars(vec2 st, float cells, float time, vec2 speed, vec3 color)
     //Sample over y --> X
     // y= mx+b
     // -1 = x/y
-    float up = 1. - fpos.x - fpos.y;
-    up += 1. - fpos.y-fpos.y*5.; // Strange sloping effect
+    float up = fpos.x - fpos.y;
+    up += fpos.y-fpos.y*5.; // Strange sloping effect
 
     float t = -0.120;
     up = step(t, up) * step(up, -t);
@@ -45,22 +57,32 @@ vec4 stars(vec2 st, float cells, float time, vec2 speed, vec3 color)
 }
 
 void main() {
-    vec2 st = gl_FragCoord.xy/u_resolution.xy;
 
-    //45 % 6 == 3
-    //45 / 6 == 7(.5)
-    //7 * 6 == 42
-    //45-42
-    //float timeFrame=1000.;
-    //float clampedTime = u_time - floor(u_time / timeFrame) * timeFrame;
+    vec2 uv = gl_FragCoord.xy/u_resolution.xy;
 
-    float clampedTime=u_time;
+    float aspect = u_resolution.x / u_resolution.y;
+    if (aspect > 1.0) {
+        uv.x = (uv.x - 0.5) * aspect + 0.5;
+    } else {
+        uv.y = (uv.y - 0.5) / aspect + 0.5;
+    }
 
-    //Cells
-    vec4 stars1 = stars(st, 8., clampedTime, vec2(-0.6,0.1),vec3(0,0,1));
-    vec4 stars2 = stars(st, 32., clampedTime*0.1, vec2(-0.3,0.05),vec3(0,0,1));
-    vec4 stars3 = stars(st, 4., clampedTime, vec2(-1.2,0.2),vec3(0,0,1));
 
-    //
-    gl_FragColor =   stars1 + stars2+ stars3 + vec4(lerp(vec3(0.000,0.000,0.295),vec3(0.005,0.000,0.000), st.y),1);
+    float duration = 60.;
+    //woah
+
+    float x = 0.5;
+    float y = 0.8;
+    float scaledTime = (sin(u_time/duration));
+
+    //gl_FragColor = vec4(warpedUV.x, warpedUV.y, 1, 1);
+    //gl_FragColor = vec4(r);
+    //return;
+
+
+    vec4 background = vec4(lerp(vec3(0.000,0.000,0.295),vec3(0.394,0.098,0.440), uv.y),1);
+
+    gl_FragColor = background;
+
+
 }

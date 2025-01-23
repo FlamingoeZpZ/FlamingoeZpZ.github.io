@@ -1,0 +1,10 @@
+
+
+.profile-pic {
+    position: absolute;         
+    width: max(18vw, 18vh);     
+    height: auto;               
+    left: 50%;                  
+    top: 28vh;                  
+    transform: translate(-50%, -50%);
+}

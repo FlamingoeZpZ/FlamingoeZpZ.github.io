@@ -60,6 +60,8 @@ void main() {
 
     vec2 uv = gl_FragCoord.xy/u_resolution.xy;
 
+
+    
     float aspect = u_resolution.x / u_resolution.y;
     if (aspect > 1.0) {
         uv.x = (uv.x - 0.5) * aspect + 0.5;
@@ -67,9 +69,7 @@ void main() {
         uv.y = (uv.y - 0.5) / aspect + 0.5; 
     }
     
-    
     float duration = 60.;
-    //woah
 
     float x = 0.5;
     float y = 0.8;
