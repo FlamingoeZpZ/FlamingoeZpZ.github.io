@@ -1,10 +1,150 @@
+.gradient-rect {
+    width: 10%;
+    height: 100%;
+    top: 0;
+}
 
+.gradient-left {
+    position: fixed;
+    left: 0;
+    background: linear-gradient(to right, black, transparent);
+}
 
-.profile-pic {
-    position: absolute;         
-    width: max(18vw, 18vh);     
-    height: auto;               
-    left: 50%;                  
-    top: 28vh;                  
-    transform: translate(-50%, -50%);
+.gradient-right {
+    position: fixed;
+    right: 0;
+    background: linear-gradient(to left, black, transparent);
+}
+
+.gradient-bottom {
+    background: linear-gradient(to top, transparent 90%, rgba(0, 0, 0, 0.8) 100%) fixed;
+    background-size: 100% 100%;
+    transition: background-position 0.1s ease-out;
+}
+
+.repeating-image{
+    top: 2%;
+    left: 1%;
+    background-repeat: repeat-y;
+    background-attachment: local;
+    position: fixed;
+    background-image: url("Assets/Images/General/Flamingo.webp");
+}
+
+.flipped-repeating-image{
+    top: 2%;
+    right: 1%;
+    bottom: 100%;
+    background-repeat: repeat-y;
+    position: fixed;
+    background-attachment: scroll, fixed;
+    background-image: url("Assets/Images/General/Flamingo.webp");
+    transform: scaleX(-1);
+}
+
+.gallery-item {
+    position: relative;
+    width: 80%;;
+    max-width: 960px;
+    aspect-ratio: 16 / 9;
+    overflow: visible;
+    margin-bottom: 100px;
+    cursor: pointer;
+    justify-content: center;
+}
+.gallery-item text-a{
+    position: relative;
+    color: white;
+    left: 40%;
+    text-decoration: none;
+    font-size: 18px;
+}
+.gallery-item text-link
+{
+    position: relative;
+    left: 40%;
+    color: #ffd700;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.gallery-item:hover text-link {
+    text-decoration: underline;
+}
+
+.gallery-item img,
+.gallery-item video {
+    position: absolute;
+    top: 10%;
+    left: 40%;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.2s ease, opacity 0.2s ease; /* Transition both scale and opacity */
+    border-radius: 15px;
+}
+
+.gallery-item video { /* Videos only, start hidden. */
+    opacity: 0;
+}
+
+.gallery-item:hover img,
+.gallery-item:hover video {
+    transform: scale(1.1); 
+}
+
+.gallery-item:hover video { /* Videos only, on hover, become visible */
+    opacity: 1;
+}
+
+.gallery-item:hover {
+    overflow: visible; /* Allow overflow when scaling */
+}
+
+.gallery-item:hover video {
+    opacity: 1;
+}
+
+.scrollable-content {
+    overflow: scroll;          
+    scrollbar-width: none;      
+    -ms-overflow-style: none;   
+}
+
+.custom-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background-color: #444;
+    color: #ffd700;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.custom-button:hover {
+    background-color: #666;
+    transform: scale(1.25);
+}
+
+.icon-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.icon-button:hover {
+    transform: scale(1.25);
+}
+
+.button-icon {
+    width: auto;
+    height: 32px;
 }
