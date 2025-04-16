@@ -44,13 +44,12 @@
     </style>
 </head>
 <body>
-<!-- Fullscreen Shader Background -->
 <canvas id="glCanvas"></canvas>
+<!-- Fullscreen Shader Background 
 <div class="gradient-rect gradient-left"></div>
 <div class="gradient-rect gradient-right"></div>
 <div  class="gradient-rect gradient-bottom"></div>
-
-
+-->
 
 
 <!-- Content -->
@@ -58,13 +57,12 @@
  
     
     <div>
-        <div style = "margin-top: 600px">
+        <div style = "margin-top: 680px">
             <button onclick="loadNewShader()" class="custom-button" >Shake things up?
             </button>
             <br>
             <br>
-            <br>
-
+            <div class = "icon-button-container">
             <button onclick="window.open('https://github.com/FlamingoeZpZ')" class = "icon-button">
                 <img src = "Assets/Images/General/GitHub.webp" alt = "Github" class = "button-icon">
             </button>
@@ -78,9 +76,10 @@
             </button>
 
             <button onclick="window.open('https://flamingoezpz.itch.io/')" class = "icon-button">
-                <img src = "Assets/Images/General/itch.webp" alt = "Github" class = "button-icon">
+                <img src = "Assets/Images/General/Itch.webp" alt = "Github" class = "button-icon">
             </button>
-            
+            </div>
+            <br>
             <h1>Projects</h1>
         </div>
         <div>
@@ -91,7 +90,7 @@
                 <text-link>Play In Browser</text-link>
                 
                 <img src="Projects/Processing%20Java/Sheep%20Herder/Resources/Cover.webp"   alt="Failed To Load Resources">
-                <video loop autoplay >
+                <video loop autoplay>
                     <source src="Projects/Processing%20Java/Sheep%20Herder/Resources/Hover.webm" type="video/webm">
                     Your browser does not support WebM.
                 </video>
@@ -124,6 +123,7 @@
     
     <div>
         <h1>Created by Gabe Kotton</h1>
+        <div class = "icon-button-container">
         <button onclick="window.open('https://github.com/FlamingoeZpZ')" class = "icon-button">
             <img src = "Assets/Images/General/GitHub.webp" alt = "Github" class = "button-icon">
         </button>
@@ -137,8 +137,9 @@
         </button>
 
         <button onclick="window.open('https://flamingoezpz.itch.io/')" class = "icon-button">
-            <img src = "Assets/Images/General/itch.webp" alt = "Github" class = "button-icon">
+            <img src = "Assets/Images/General/Itch.webp" alt = "Github" class = "button-icon">
         </button>
+        </div>
     </div>
     <!--<button id="loadShaderButton">Load Random Secondary Shader</button>-->
 
@@ -149,8 +150,8 @@
 <!-- Shader Script (Mostly GPT generated because my JS is weak)-->
 <script>
     const secondaryShaders = [
-        "Constant",
-        "Bubbles",
+        //"Constant",
+        //"Bubbles",
         "Stars",
     ];
     
@@ -226,6 +227,21 @@
 
         // Expose to window so HTML button can call it
         window.loadNewShader = loadNewShader;
+
+        window.addEventListener("beforeunload", () => {
+            if (gl) {
+                if (program) {
+                    gl.useProgram(null);
+                    gl.deleteProgram(program);
+                }
+                if (fragmentShader) {
+                    gl.deleteShader(fragmentShader);
+                }
+                if (vertexShader) {
+                    gl.deleteShader(vertexShader);
+                }
+            }
+        });
         
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;

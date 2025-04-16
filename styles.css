@@ -128,23 +128,38 @@
     transform: scale(1.25);
 }
 
+.icon-button-container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 256px;
+    margin: 0 auto;
+    height: 64px;
+    max-height: 64px;
+    transition: transform 0.3s ease;
+}
+
 .icon-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 20px;
+    min-width: 0;
+    max-width: 64px;
+    height: 100%;
     background-color: transparent;
     border: none;
-    font-size: 1.2rem;
     cursor: pointer;
     transition: transform 0.3s ease;
 }
+
 
 .icon-button:hover {
     transform: scale(1.25);
 }
 
+.icon-button-container:hover {
+    transform: scale(1.25);
+}
+
 .button-icon {
-    width: auto;
-    height: 32px;
+    flex-shrink: 1;
+    width: 100%;
+    height: auto;
 }
