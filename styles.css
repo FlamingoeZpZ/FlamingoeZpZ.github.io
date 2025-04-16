@@ -56,12 +56,12 @@
 .gallery-item {
     position: relative;
     aspect-ratio: 16 / 9;
-    cursor: pointer;
     flex-shrink: 1;
 }
 
 .gallery-text {
     max-height: 64px;
+    cursor: pointer;
 }
 .gallery-text text-a {
     color: white;
