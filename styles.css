@@ -92,6 +92,7 @@
 
 .gallery-item video { /* Videos only, start hidden. */
     opacity: 0;
+    user-select: none;
 }
 
 .gallery-item:hover img,
