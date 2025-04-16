@@ -92,6 +92,7 @@
 
 .gallery-item video { /* Videos only, start hidden. */
     opacity: 0;
+    pointer-events: none;
     user-select: none;
 }
 
