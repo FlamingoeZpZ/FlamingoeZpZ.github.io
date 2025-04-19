@@ -1,3 +1,4 @@
+/*
 const Processing = document.getElementById("JavaProcessing");
 const Unity = document.getElementById("C#Unity");
 const Unreal = document.getElementById("C++Unreal");
@@ -36,14 +37,6 @@ function showOther() {
     Other.classList.add("show");
 }
 
-
-function handleOption1() {
-    // Add your Option 1 handling code here
-    console.log("Option 1 clicked");
-    // Close the dropdown if desired
-    document.getElementById("myDropdown").classList.remove("show");
-}
-
 // Remove all window.onclick handlers and use addEventListener instead
 document.addEventListener('click', function(event) {
     if (!event.target.closest('.dropdown')) {
@@ -55,4 +48,4 @@ document.addEventListener('click', function(event) {
             }
         }
     }
-});
+});*/
