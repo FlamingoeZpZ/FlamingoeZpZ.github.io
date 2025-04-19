@@ -1,25 +1,39 @@
-.gradient-rect {
-    width: 10%;
-    height: 100%;
+/* Fullscreen Canvas */
+#glCanvas {
+    position: absolute;
     top: 0;
-}
-
-.gradient-left {
-    position: fixed;
     left: 0;
-    background: linear-gradient(to right, black, transparent);
+    width: 100%;
+    height: 100%;
 }
 
-.gradient-right {
-    position: fixed;
-    right: 0;
-    background: linear-gradient(to left, black, transparent);
+/* General resets */
+body, html {
+    background-blend-mode: color;
+    background: black;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    z-index: -2;
 }
 
-.gradient-bottom {
-    background: linear-gradient(to top, transparent 90%, rgba(0, 0, 0, 0.8) 100%) fixed;
-    background-size: 100% 100%;
-    transition: background-position 0.1s ease-out;
+
+
+
+/* Content Container */
+.content {
+    position: relative;
+    z-index: 1; /* Ensures content is on top of the canvas */
+    text-align: center;
+    padding: 20px;
+    color: white;
+}
+
+
+h1 {
+    margin-bottom: 20px;
 }
 
 .repeating-image{
@@ -47,7 +61,7 @@
     flex-direction: column;
     position: relative;
     height: 100%;
-    width: 80%;
+    width: 100%;
     max-width: 960px;
     gap: 4vw;
     margin: 0 auto;
@@ -133,10 +147,8 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    max-width: 256px;
     margin: 0 auto;
-    height: 64px;
-    max-height: 64px;
+    height: auto; 
     transition: transform 0.3s ease;
 }
 
@@ -150,13 +162,36 @@
     transition: transform 0.3s ease;
 }
 
+.text-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background-color: sienna;
+    color: gold;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.text-button-icon {
+    flex-shrink: 1;
+    width: 100%;
+    max-width: 32px;
+    height: auto;
+}
+
 
 .icon-button:hover {
     transform: scale(1.25);
 }
+.text-button:hover {
+    transform: scale(1.25);
+}
 
 .icon-button-container:hover {
-    transform: scale(1.25);
+    transform: scale(1.1);
+    
 }
 
 .button-icon {
@@ -164,3 +199,107 @@
     width: 100%;
     height: auto;
 }
+
+.core-content
+{
+    
+}
+
+.core-content-field
+{
+    display: none;
+}
+
+.core-content-field.show {
+    display: block;
+    animation: fadeIn 1s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Show dropdown content when button is hovered over */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change button background on hover */
+.dropdown:hover .dropdown-button {
+    background-color: #3e8e41;
+}
+
+.dropdown-content button,
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.dropdown-content button:hover,
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+    color: #4CAF50;
+}
+
+
