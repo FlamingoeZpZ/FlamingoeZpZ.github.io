@@ -1,90 +1,3 @@
-.repeating-image {
-    top: 2%;
-    left: 1%;
-    background-repeat: repeat-y;
-    background-attachment: local;
-    position: fixed;
-    background-image: url("Assets/Images/General/Flamingo.webp");
-}
-
-.flipped-repeating-image {
-    top: 2%;
-    right: 1%;
-    bottom: 100%;
-    background-repeat: repeat-y;
-    background-attachment: scroll;
-    position: fixed;
-    background-image: url("Assets/Images/General/Flamingo.webp");
-    transform: scaleX(-1);
-}
-
-.gallery {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    max-width: 960px;
-    gap: 4vw;
-    margin: 0 auto;
-}
-
-.gallery-item {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    flex-shrink: 1;
-}
-
-.gallery-text {
-    max-height: 64px;
-    cursor: pointer;
-}
-
-.gallery-text .text-a {
-    color: white;
-    font-size: clamp(4px, 2vw, 32px);
-}
-
-.gallery-text .text-link {
-    color: gold;
-    font-size: clamp(4px, 2vw, 32px);
-}
-
-.gallery-item:hover .text-link {
-    text-decoration: underline;
-}
-
-.gallery-item img,
-.gallery-item video {
-    position: absolute;
-    top: 15%;
-    left: 0;
-    width: 100%;
-    height: 85%;
-    object-fit: cover;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-    border-radius: 15px;
-}
-
-.gallery-item video {
-    opacity: 0;
-    pointer-events: none;
-    user-select: none;
-}
-
-.gallery-item:hover img,
-.gallery-item:hover video {
-    transform: scale(1.1);
-}
-
-.gallery-item:hover video {
-    opacity: 1;
-}
-
-.gallery-item:hover {
-    overflow: visible;
-}
-
 .custom-button {
     display: inline-flex;
     align-items: center;
@@ -98,8 +11,62 @@
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+.icon-button {
+    min-width: 0;
+    max-width: 64px;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+
+.text-button {
+    display: flex ;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    color: gold;
+    border-radius: 12px;
+    font-size: clamp(12px, 1.2vw, 24px);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.button-text {
+    display: inline;
+}
+
+/* Hide text if screen is too small (or font-size drops too low) */
+@media (max-width: 600px) {
+    .button-text {
+        display: none;
+    }
+    .text-button {
+        gap: 5%;
+        padding: 2%;
+    }
+}
+
+
 .custom-button:hover {
-    background-color: #666;
+    filter: brightness(85%);
+    transform: scale(1.25);
+}
+
+.custom-button:hover a{
+    text-decoration: underline;
+}
+
+.text-button:hover {
+    filter: brightness(85%);
+    text-decoration: underline;
+    transform: scale(1.25);
+}
+
+.icon-button:hover {
+    filter: brightness(85%);
     transform: scale(1.25);
 }
 
@@ -112,42 +79,16 @@
     transition: transform 0.3s ease;
 }
 
-.icon-button {
-    min-width: 0;
-    max-width: 64px;
-    height: 100%;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
 
-.text-button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 20px;
-    background-color: sienna;
-    color: gold;
-    border-radius: 12px;
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
-}
 
 .text-button-icon {
-    flex-shrink: 1;
-    width: 100%;
-    max-width: 32px;
+    width: clamp(16px, 4vw, 32px);
+    max-width: 100%;
     height: auto;
+    flex-shrink: 1;
 }
 
-.icon-button:hover {
-    transform: scale(1.25);
-}
 
-.text-button:hover {
-    transform: scale(1.25);
-}
 
 .icon-button-container:hover {
     transform: scale(1.1);

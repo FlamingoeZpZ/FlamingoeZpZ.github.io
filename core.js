@@ -1,8 +1,13 @@
-/*
+
 const Processing = document.getElementById("JavaProcessing");
 const Unity = document.getElementById("C#Unity");
 const Unreal = document.getElementById("C++Unreal");
 const Other = document.getElementById("Other");
+const JavaColor = document.getElementById("JavaButton").style.backgroundColor;
+const UnityColor = document.getElementById("UnityButton").style.backgroundColor;
+const UnrealColor = document.getElementById("UnrealButton").style.backgroundColor;
+const OtherColor = document.getElementById("OtherButton").style.backgroundColor;
+const Body = document.getElementById("core");
 
 function coreMain()
 {
@@ -14,6 +19,8 @@ function showProcessing() {
     Unity.classList.remove("show");
     Unreal.classList.remove("show");
     Other.classList.remove("show");
+
+    Body.style.backgroundColor = JavaColor;
 }
 
 function showUnity() {
@@ -21,6 +28,9 @@ function showUnity() {
     Unity.classList.add("show");
     Unreal.classList.remove("show");
     Other.classList.remove("show");
+
+    Body.style.backgroundColor = UnityColor;
+
 }
 
 function showUnreal() {
@@ -28,6 +38,9 @@ function showUnreal() {
     Unity.classList.remove("show");
     Unreal.classList.add("show");
     Other.classList.remove("show");
+
+    Body.style.backgroundColor = UnrealColor;
+
 }
 
 function showOther() {
@@ -35,17 +48,7 @@ function showOther() {
     Unity.classList.remove("show");
     Unreal.classList.remove("show");
     Other.classList.add("show");
+    
+    Body.style.backgroundColor = OtherColor;
 }
-
-// Remove all window.onclick handlers and use addEventListener instead
-document.addEventListener('click', function(event) {
-    if (!event.target.closest('.dropdown')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        for (var i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
-        }
-    }
-});*/
+ 

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="gallery.css">
     <title>Gabe's Portfolio</title>
     <link rel="icon" type="image/x-icon" href="Assets/Images/General/Flamingo.webp">
 
@@ -11,14 +12,16 @@
         /* General resets */
         body, html {
             background-blend-mode: color;
-            background: black;
             margin: 0;
             padding: 0;
             overflow-y: auto;
             overflow-x: hidden;
             font-family: Arial, sans-serif;
             z-index: -2;
+            transition: background-color 0.2s ease;
+
         }
+        
 
         /* Fullscreen Canvas */
         #glCanvas {
@@ -27,6 +30,8 @@
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: 10; /* Ensures content is on top of the canvas */
+
         }
 
         /* Content Container */
@@ -36,6 +41,24 @@
             text-align: center;
             padding: 20px;
             color: white;
+            transition: background-color 0.6s ease;
+            background-color: black;
+        }
+        
+        
+
+        /* Content Container */
+        .button-content {
+            position: relative;
+            z-index: 10; /* Ensures content is on top of the canvas */
+            text-align: center;
+            color: white;
+            transition: background-color 0.2s ease;
+            height: 100%;
+            min-height: 98vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-end; 
         }
 
 
@@ -47,20 +70,14 @@
 
 <body>
 <canvas id="glCanvas"></canvas>
-
-
-
-
-<!-- Content -->
-<div class="content">
-    <div> <!-- Core Buttons -->
-        <div style = "margin-top: 80vh"> <!-- Core Buttons -->
-            <button onclick="loadNewShader()" class="custom-button" >Shake things up?
-            </button>
-            <br>
-            <br>
-       
-            <div class = "icon-button-container">
+<div class = "button-content"> <!-- Core Buttons -->
+    <div > <!-- Core Buttons -->
+        <button onclick="loadNewShader()" class="custom-button">
+            <a> Java | Processing </a>
+        </button>
+        <br>
+        <br>
+        <div class = "icon-button-container">
             <button onclick="window.open('https://github.com/FlamingoeZpZ')" class = "icon-button">
                 <img src = "Assets/Images/SocialMedia/GitHub.webp" alt = "Github" class = "button-icon">
             </button>
@@ -76,35 +93,37 @@
             <button onclick="window.open('https://flamingoezpz.itch.io/')" class = "icon-button">
                 <img src = "Assets/Images/SocialMedia/Itch.webp" alt = "Github" class = "button-icon">
             </button>
-            </div>
         </div>
     </div>
+
+</div>
+<!-- Content -->
+<div class="content" id ="core">
     <br>
-    <br>
-    <div class = "icon-button-container"> <!-- Menu Selector Buttons -->
-        <button onclick="showProcessing()" class = "text-button">
-            <a> Java | Processing </a>
-            <img src = "Assets/Images/Project/Java.webp" alt = "" class = "text-button-icon">
-            <img src = "Assets/Images/Project/Processing.webp" alt = "" class = "text-button-icon">
+    <div class = "icon-button-container" style = "gap: 2.5%"> <!-- Menu Selector Buttons -->
+        <button onclick="showProcessing()" class="text-button" style="background-color: #805849;" id ="JavaButton" >
+            <span class = "button-text"> Java | Processing </span>
+            <img src="Assets/Images/Project/Java.webp" alt="" class="text-button-icon">
+            <img src="Assets/Images/Project/Processing.webp" alt="" class="text-button-icon">
         </button>
-        <button onclick="showUnity()" class = "text-button">
-            <a> C# | Unity </a>
-            <img src = "Assets/Images/Project/CSharp.webp" alt = "" class = "text-button-icon">
-            <img src = "Assets/Images/Project/Unity.webp" alt = "" class = "text-button-icon">
+        <button onclick="showUnity()" class="text-button" style="background-color: #6b3fa0;" id = "UnityButton">
+            <span class = "button-text"> C# | Unity </span>
+            <img src="Assets/Images/Project/CSharp.webp" alt="" class="text-button-icon">
+            <img src="Assets/Images/Project/Unity.webp" alt="" class="text-button-icon">
         </button>
-        <button onclick="showUnreal()" class = "text-button">
-            <a> C++ | Unreal Engine </a>
-            <img src = "Assets/Images/Project/CPlusPlus.webp" alt = "" class = "text-button-icon">
-            <img src = "Assets/Images/Project/Unreal.webp" alt = "" class = "text-button-icon">
+        <button onclick="showUnreal()" class="text-button" style="background-color: #3b5870;" id ="UnrealButton" >
+            <span class = "button-text"> C++ | Unreal Engine </span>
+            <img src="Assets/Images/Project/CPlusPlus.webp" alt="" class="text-button-icon">
+            <img src="Assets/Images/Project/Unreal.webp" alt="" class="text-button-icon">
         </button>
-        <button onclick="showOther()" class = "text-button">
-            <a> Other Projects </a>
-            <img src = "Assets/Images/Project/Mystery.webp" alt = "" class = "text-button-icon">
+        <button onclick="showOther()" class="text-button" style="background-color: #4d6e5d;" id ="OtherButton">
+            <span class = "button-text"> Other Projects </span>
+            <img src="Assets/Images/Project/Mystery.webp" alt="" class="text-button-icon">
         </button>
     </div>
+    <br>
     <div class="core-content"> <!-- Pages -->
         <div class = "core-content-field" id = "JavaProcessing">
-            <h2 >Java | Processing</h2>
             <div class = "gallery">
                 <div class = "gallery-item" >
                     
@@ -144,7 +163,6 @@
             </div>
         </div> <!-- Java Processing Project-->
         <div class = "core-content-field" id = "C#Unity">
-            <h2>C# | Unity</h2>
             <div class = "gallery">
                 <div class = "gallery-item" >
     
@@ -195,7 +213,6 @@
             </div>
         </div> <!-- C# Unity Project-->
         <div class = "core-content-field" id = "C++Unreal"> <!-- C++ Unreal Engine Projects -->
-            <h2>C++ | Unreal Engine</h2>
             <div class = "gallery">
                 <div class = "gallery-item" >
     
@@ -224,7 +241,6 @@
             </div>
         </div>
         <div class = "core-content-field" id = "Other"> <!-- Other Projects -->
-            <h2> Other Projects </h2>
             <div class = "gallery">
                 <div class = "gallery-item" >
     
@@ -275,8 +291,6 @@
         </button>
         </div>
     </div>
-    <!--<button id="loadShaderButton">Load Random Secondary Shader</button>-->
-
 </div>
 <script src="core.js"></script>
 <script src="webgl_canvas.js"></script>
