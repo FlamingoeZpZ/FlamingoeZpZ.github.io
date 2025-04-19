@@ -39,7 +39,7 @@
 }
 
 /* Hide text if screen is too small (or font-size drops too low) */
-@media (max-width: 600px) {
+@media (max-width: 650px) {
     .button-text {
         display: none;
     }
