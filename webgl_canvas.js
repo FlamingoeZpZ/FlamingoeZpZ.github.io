@@ -3,8 +3,8 @@
 
 const secondaryShaders = [
     //"Constant",
-    "Bubbles",
-    //"Stars",
+    //"Bubbles",
+    "Stars",
 ];
 
 let id = -1;
