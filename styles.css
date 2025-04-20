@@ -38,16 +38,6 @@
     display: inline;
 }
 
-/* Hide text if screen is too small (or font-size drops too low) */
-@media (max-width: 650px) {
-    .button-text {
-        display: none;
-    }
-    .text-button {
-        gap: 5%;
-        padding: 2%;
-    }
-}
 
 
 .custom-button:hover {
@@ -112,4 +102,12 @@
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+
+/* Hide text if screen is too small (or font-size drops too low) */
+@media (max-width: 650px) {
+    .button-text {
+        display: none;
+    }
 }

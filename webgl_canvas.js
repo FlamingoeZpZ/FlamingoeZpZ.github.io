@@ -1,21 +1,10 @@
 //Parts are AI Generated. I'm a game developer, spending hours in JS context does not make sense.
 // Remove all window.onclick handlers and use addEventListener instead
-document.addEventListener('click', function(event) {
-    if (!event.target.closest('.dropdown')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        for (var i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
-        }
-    }
-});
 
 const secondaryShaders = [
     //"Constant",
-    //"Bubbles",
-    "Stars",
+    "Bubbles",
+    //"Stars",
 ];
 
 let id = -1;
