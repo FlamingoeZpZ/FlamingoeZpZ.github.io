@@ -1,6 +1,3 @@
-// Author:
-// Title:
-
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -71,15 +68,16 @@ void main() {
     
     float duration = 60.;
 
-    float x = 0.5;
-    float y = 0.8;
-    vec2 warpedUV = vec2(uv.x, uv.y) - vec2(x,y);// - u_mouse/u_resolution;// u_resolution/gl_FragCoord.xy;//.xy/u_resolution;
+    float pivotX = 0.5;
+    float pivotY = 0.8;
+    vec2 warpedUV = vec2(uv.x, uv.y) - vec2(pivotX,pivotY);
+    
     float scaledTime = (sin(u_time/duration));
 
     //Polar co-ordinates.
     float r = length(warpedUV);
     float theta  = atan(warpedUV.y/warpedUV.x)  + 0.785398165;// * 0.637;
-    float spiralIntensity =1. + u_time * scaledTime * 0.2;
+    float spiralIntensity =1. + scaledTime * 0.2;
     float bands = 1.581; // 0.637
     r += spiralIntensity + theta * bands;
 
@@ -96,9 +94,11 @@ void main() {
 
     gl_FragColor = background;
       
-    vec4 stars1 = stars(warpedUV, 8., u_time, vec2(0.6,0.1),vec3(1,0.9,0.9));
-    vec4 stars2 = stars(warpedUV, 32., u_time * 0.1, vec2(0.3,0.05),vec3(1,0.8,0.8));
-    vec4 stars3 = stars(warpedUV, 4., u_time, vec2(1.2,0.2),vec3(1,1,1));
+    float starTime = abs(scaledTime) * -60.;
+    
+    vec4 stars1 = stars(warpedUV, 8., starTime, vec2(0.6,0.1),vec3(1,0.9,0.9));
+    vec4 stars2 = stars(warpedUV, 32., starTime * 0.1, vec2(0.3,0.05),vec3(1,0.8,0.8));
+    vec4 stars3 = stars(warpedUV, 4., starTime, vec2(1.2,0.2),vec3(1,1,1));
     vec4 stars = stars1 + stars2+ stars3;
 
     gl_FragColor += stars;
