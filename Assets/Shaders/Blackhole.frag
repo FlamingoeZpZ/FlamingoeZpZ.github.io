@@ -103,7 +103,7 @@ void main() {
 
     gl_FragColor += stars;
     
-    float circleValue = circle(uv, x, y);
+    float circleValue = circle(uv, pivotX, pivotY);
     float blackHole = min(1.,pow(circleValue,32.) * 4.);// * lerp(0.1,1.,scaledTime) + (sin(u_time / k)  * t) * lerp(0.,0.2, scaledTime;
     float pulsation = -(sin(u_time / 1.) * 5. + 10.) * lerp(1.,1.3, scaledTime);
     blackHole *= pulsation;
