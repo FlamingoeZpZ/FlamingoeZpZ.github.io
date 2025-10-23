@@ -5,6 +5,7 @@ const secondaryShaders = [
     //"Constant",
     //"Bubbles",
     "Blackhole",
+    "Underwater"
 ];
 
 let id = -1;
