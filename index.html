@@ -5,376 +5,572 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="gallery.css">
-    <title>Gabe's Portfolio</title>
+    <title>Gabe Kotton — Game Developer</title>
     <link rel="icon" type="image/x-icon" href="Assets/Images/General/Flamingo.webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 
     <style>
-        /* General resets */
+        :root {
+            --gold: #e8c96a;
+            --gold-dim: #a8903d;
+            --bg: #080808;
+            --surface: rgba(255,255,255,0.04);
+            --border: rgba(255,255,255,0.08);
+            --text: #e8e4dc;
+            --text-muted: #888;
+            --font-display: 'Syne', sans-serif;
+            --font-mono: 'DM Mono', monospace;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
         body, html {
-            background-blend-mode: color;
             margin: 0;
             padding: 0;
             overflow-y: auto;
             overflow-x: hidden;
-            font-family: Arial, sans-serif;
-            z-index: -2;
-            transition: background-color 0.2s ease;
-            background-color: black;
-
+            font-family: var(--font-mono);
+            background-color: var(--bg);
+            color: var(--text);
         }
-        
 
-        /* Fullscreen Canvas */
         #glCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10; /* Ensures content is on top of the canvas */
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+        }
+
+        #hero {
+            position: relative;
+            z-index: 10;
             min-height: 100vh;
-
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 5vw 6vh;
         }
 
-        /* Content Container */
-        .content {
+        .hero-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--font-mono);
+            font-size: clamp(10px, 1.1vw, 14px);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.1s forwards;
+        }
+
+        .hero-name {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 9vw, 8rem);
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            margin: 0;
+            color: var(--text);
+            opacity: 0;
+            animation: fadeUp 0.9s ease 0.25s forwards;
+        }
+
+        .hero-name span { color: var(--gold); }
+
+        .hero-tagline {
+            font-family: var(--font-mono);
+            font-size: clamp(11px, 1.3vw, 16px);
+            color: var(--text-muted);
+            max-width: 440px;
+            line-height: 1.6;
+            margin: 0;
+            opacity: 0;
+            animation: fadeUp 0.9s ease 0.4s forwards;
+        }
+
+        .hero-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.9s ease 0.55s forwards;
+        }
+
+        .social-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px; height: 42px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+            padding: 0;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold-dim);
+            background: rgba(232,201,106,0.1);
+        }
+
+        .social-btn img {
+            width: 20px; height: 20px;
+            object-fit: contain;
+            filter: brightness(0.85);
+            transition: filter 0.2s;
+        }
+
+        .social-btn:hover img { filter: brightness(1.1); }
+
+        .shader-btn {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+            background: rgba(232,201,106,0.08);
+            border: 1px solid var(--gold-dim);
+            border-radius: 999px;
+            padding: 10px 22px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .shader-btn:hover {
+            background: rgba(232,201,106,0.18);
+            transform: scale(1.05);
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: var(--gold-dim);
+            margin: 0 auto 2.5rem;
+            opacity: 0.5;
+        }
+
+        #core {
             position: relative;
-            z-index: 1; /* Ensures content is on top of the canvas */
-            text-align: center;
-            padding: 20px;
-            color: white;
-            transition: background-color 0.6s ease;
-            background-color: black;
+            z-index: 10;
+            background: linear-gradient(to bottom, transparent, var(--bg) 6rem);
+            padding: 0 5vw 6rem;
+            transition: background-color 0.4s ease;
         }
-        
-        
 
-        /* Content Container */
-        .button-content {
+        .tab-bar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .tab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 999px;
+            font-family: var(--font-mono);
+            font-size: clamp(10px, 1.1vw, 13px);
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+        }
+
+        .tab-btn img {
+            width: 18px; height: 18px;
+            object-fit: contain;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--text);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn:hover img { opacity: 1; }
+
+        .tab-btn[data-color="java"].active   { color: #e8b4a0; border-color: #c4897a; background: rgba(128,88,73,0.2); }
+        .tab-btn[data-color="unity"].active  { color: #c9a8f0; border-color: #9d6ed4; background: rgba(107,63,160,0.2); }
+        .tab-btn[data-color="unreal"].active { color: #a8c8e0; border-color: #6a9bba; background: rgba(59,88,112,0.2); }
+        .tab-btn[data-color="other"].active  { color: #a8d4bc; border-color: #7ab394; background: rgba(77,110,93,0.2); }
+        .tab-btn.active img { opacity: 1; }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        #site-footer {
             position: relative;
-            z-index: 10; /* Ensures content is on top of the canvas */
+            z-index: 10;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            padding: 3rem 5vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
             text-align: center;
-            color: white;
-            transition: background-color 0.2s ease;
-            height: 100%;
-            min-height: 98vh; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: flex-end; 
         }
 
+        .footer-name {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
 
-        h1 {
-            margin-bottom: 20px;
+        .footer-name span { color: var(--gold); }
+
+        .footer-copy {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 650px) {
+            .hero-footer { flex-direction: column; align-items: flex-start; }
+            .tab-btn span { display: none; }
         }
     </style>
 </head>
 
 <body>
+
 <canvas id="glCanvas"></canvas>
-<div class = "button-content"> <!-- Core Buttons -->
-    <div > <!-- Core Buttons -->
-        <button onclick="loadNewShader()" class="custom-button">
-            <a> Shake things up? </a>
-        </button>
-        <br>
-        <br>
-        <div class = "icon-button-container">
-            <button onclick="window.open('https://github.com/FlamingoeZpZ')" class = "icon-button">
-                <img src = "Assets/Images/SocialMedia/GitHub.webp" alt = "Github" class = "button-icon">
-            </button>
 
-            <button onclick="window.open('https://www.youtube.com/@gabek5760')" class = "icon-button">
-                <img src = "Assets/Images/SocialMedia/Youtube.webp" alt = "Youtube" class = "button-icon">
-            </button>
-
-            <button onclick="window.open('https://www.linkedin.com/in/gabe-kotton-b21050245/')" class = "icon-button">
-                <img src = "Assets/Images/SocialMedia/Linkedin.webp" alt = "Github" class = "button-icon">
-            </button>
-
-            <button onclick="window.open('https://flamingoezpz.itch.io/')" class = "icon-button">
-                <img src = "Assets/Images/SocialMedia/Itch.webp" alt = "Github" class = "button-icon">
-            </button>
+<section id="hero">
+    <div class="hero-inner">
+        <p class="hero-eyebrow">Game Developer &amp; Creative Technologist</p>
+        <h1 class="hero-name">Gabe<br><span>Kotton</span></h1>
+        <p class="hero-tagline">Building games, tools, and interactive experiences — from Java to Unreal Engine.</p>
+        <div class="hero-footer">
+            <div class="social-row">
+                <button onclick="window.open('https://github.com/FlamingoeZpZ')" class="social-btn" aria-label="GitHub">
+                    <img src="Assets/Images/SocialMedia/GitHub.webp" alt="GitHub">
+                </button>
+                <button onclick="window.open('https://www.youtube.com/@gabek5760')" class="social-btn" aria-label="YouTube">
+                    <img src="Assets/Images/SocialMedia/Youtube.webp" alt="YouTube">
+                </button>
+                <button onclick="window.open('https://www.linkedin.com/in/gabe-kotton-b21050245/')" class="social-btn" aria-label="LinkedIn">
+                    <img src="Assets/Images/SocialMedia/Linkedin.webp" alt="LinkedIn">
+                </button>
+                <button onclick="window.open('https://flamingoezpz.itch.io/')" class="social-btn" aria-label="itch.io">
+                    <img src="Assets/Images/SocialMedia/Itch.webp" alt="itch.io">
+                </button>
+            </div>
+            <button onclick="loadNewShader()" class="shader-btn">✦ Change Background</button>
         </div>
     </div>
+</section>
 
-</div>
-<!-- Content -->
-<div class="content" id ="core">
-    <br>
-    <div class = "icon-button-container" style = "gap: 2.5%"> <!-- Menu Selector Buttons -->
-        <button onclick="showProcessing()" class="text-button" style="background-color: #805849;" id ="JavaButton" >
-            <span class = "button-text"> Java | Processing </span>
-            <img src="Assets/Images/Project/Java.webp" alt="" class="text-button-icon">
-            <img src="Assets/Images/Project/Processing.webp" alt="" class="text-button-icon">
+<div class="content" id="core">
+
+    <div class="divider"></div>
+    <p class="section-label">Selected Projects</p>
+
+    <div class="tab-bar">
+        <button onclick="showProcessing()" class="tab-btn active" data-color="java" id="JavaButton">
+            <img src="Assets/Images/Project/Java.webp" alt="">
+            <img src="Assets/Images/Project/Processing.webp" alt="">
+            <span>Java / Processing</span>
         </button>
-        <button onclick="showUnity()" class="text-button" style="background-color: #6b3fa0;" id = "UnityButton">
-            <span class = "button-text"> C# | Unity </span>
-            <img src="Assets/Images/Project/CSharp.webp" alt="" class="text-button-icon">
-            <img src="Assets/Images/Project/Unity.webp" alt="" class="text-button-icon">
+        <button onclick="showUnity()" class="tab-btn" data-color="unity" id="UnityButton">
+            <img src="Assets/Images/Project/CSharp.webp" alt="">
+            <img src="Assets/Images/Project/Unity.webp" alt="">
+            <span>C# / Unity</span>
         </button>
-        <button onclick="showUnreal()" class="text-button" style="background-color: #3b5870;" id ="UnrealButton" >
-            <span class = "button-text"> C++ | Unreal Engine </span>
-            <img src="Assets/Images/Project/CPlusPlus.webp" alt="" class="text-button-icon">
-            <img src="Assets/Images/Project/Unreal.webp" alt="" class="text-button-icon">
+        <button onclick="showUnreal()" class="tab-btn" data-color="unreal" id="UnrealButton">
+            <img src="Assets/Images/Project/CPlusPlus.webp" alt="">
+            <img src="Assets/Images/Project/Unreal.webp" alt="">
+            <span>C++ / Unreal</span>
         </button>
-        <button onclick="showOther()" class="text-button" style="background-color: #4d6e5d;" id ="OtherButton">
-            <span class = "button-text"> Other Projects </span>
-            <img src="Assets/Images/Project/Mystery.webp" alt="" class="text-button-icon">
+        <button onclick="showOther()" class="tab-btn" data-color="other" id="OtherButton">
+            <img src="Assets/Images/Project/Mystery.webp" alt="">
+            <span>Other</span>
         </button>
     </div>
-    <br>
-    <div class="core-content"> <!-- Pages -->
-        <div class = "core-content-field" id = "JavaProcessing">
-            <div class = "gallery">
-                <div class = "gallery-item" >
-                    <div class = "gallery-text" onclick="window.open('Projects/Processing%20Java/Sheep%20Herder/SheepHerder.html')">
+
+    <div class="core-content">
+
+        <div class="core-content-field" id="JavaProcessing">
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-text" onclick="window.open('Projects/Processing%20Java/Sheep%20Herder/SheepHerder.html')">
                         <text-a>Sheep Herder |</text-a>
                         <text-link>Play In Browser</text-link>
                     </div>
                     <div class="gallery-media">
-                    <img src="Assets/Videos/Java/SheepCover.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop >
-                        <source src="Assets/Videos/Java/SheepHover.webm" type="video/webm">
-                    </video>
-                        </div>
-                    <div class = "gallery-textbox">
+                        <img src="Assets/Videos/Java/SheepCover.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/Java/SheepHover.webm" type="video/webm">
+                        </video>
+                    </div>
+                    <div class="gallery-textbox">
                         Sheep Herder was the first game I created for RP4K, made in 2022. Sheep herder is a simple game, smaller than 250 lines of code, that is aimed at teaching the basics of Java and Processing, while also exploring concepts such as linked lists. The course is designed to be easy to learn while still being enjoyable, providing an opportunity for kids of any age to get started learning code. Nicholas Ye created the art for this game.
                     </div>
-                </div> <!--Sheep Herder-->
-                <div class = "gallery-item" >
-                    <div class = "gallery-text" onclick="window.open('Projects/Processing%20Java/Toadal%20Chaos/ToadalChaos.html')">
-                    <text-a>Toadal Chaos |</text-a>
-                    <text-link>Play In Browser</text-link>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-text" onclick="window.open('Projects/Processing%20Java/Toadal%20Chaos/ToadalChaos.html')">
+                        <text-a>Toadal Chaos |</text-a>
+                        <text-link>Play In Browser</text-link>
                     </div>
                     <div class="gallery-media">
-                    <img src="Assets/Videos/Java/ToadCover.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop  >
-                        <source src="Assets/Videos/Java/ToadHover.webm" type="video/webm">
-                    </video>
-                        </div>
-                    <div class = "gallery-textbox">
+                        <img src="Assets/Videos/Java/ToadCover.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/Java/ToadHover.webm" type="video/webm">
+                        </video>
+                    </div>
+                    <div class="gallery-textbox">
                         Toadal Chaos was the third game I created for RP4K, made in 2024. My core philosophy while creating Toadal Chaos was to encourage Object-Oriented Programming, and allowing students to take control over their code. In this course, students learn about and repeatedly use concepts such as composition, abstraction (interfaces too), and inheritance to leverage the efficient code. The art for Toadal Chaos was created by Nicholas Ye.
                     </div>
-                </div> <!--Toadal Chaos-->
-                <div class = "gallery-item" >
-                    <div class = "gallery-text" onclick="window.open('Projects/Processing%20Java/Polar%20Peril/PolarPeril.html')">
-                    <text-a>Polar Peril 2 |</text-a>
-                    <text-link>Play In Browser</text-link>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-text" onclick="window.open('Projects/Processing%20Java/Polar%20Peril/PolarPeril.html')">
+                        <text-a>Polar Peril 2 |</text-a>
+                        <text-link>Play In Browser</text-link>
                     </div>
                     <div class="gallery-media">
-                    <img src="Assets/Videos/Java/PolarCover.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop  >
-                        <source src="Assets/Videos/Java/PolarHover.webm" type="video/webm">
-                    </video>
-                        </div>
-                    <div class = "gallery-textbox">
+                        <img src="Assets/Videos/Java/PolarCover.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/Java/PolarHover.webm" type="video/webm">
+                        </video>
+                    </div>
+                    <div class="gallery-textbox">
                         Polar Peril 2 is a re-make of one of RP4Ks games, Polar Peril (Crazy right??). The original game features ~8 different classes, with no inheritance and requires students to copy and paste code between their classes. Collisions are done manually class to class, I.E. the snowball to the player. The original version of the game is essentially Donkey Kong, and I personally didn't find the game fun to make, so when I was asked to re-do it, I jumped at it. I created Polar Peril 2 in 2024.
                     </div>
-                </div> <!--Polar Peril-->
+                </div>
             </div>
-        </div> <!-- Java Processing Project-->
-        <div class = "core-content-field" id = "C#Unity">
-            <div class = "gallery">
-                <div class = "gallery-item" >
+        </div>
 
-                    <div class = "gallery-text" onclick="window.open('https://www.youtube.com/channel/UCGhSo17zBKyPe77vN8KRCXA')">
-                        <text-a>SUBMERGED | </text-a>
+        <div class="core-content-field" id="C#Unity">
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-text" onclick="window.open('https://www.youtube.com/channel/UCGhSo17zBKyPe77vN8KRCXA')">
+                        <text-a>SUBMERGED |</text-a>
                         <text-link>YouTube</text-link>
                     </div>
                     <div class="gallery-media">
-
-                        <img src="Assets/Videos/Unity/SubmergedCover.webp"   alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop >
+                        <img src="Assets/Videos/Unity/SubmergedCover.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
                             <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-
                         </video>
                     </div>
-                    <div class = "gallery-textbox">
+                    <div class="gallery-textbox">
                         Submerged is a VR social sandbox game developed in two months under contract of Squido Studios, during this time our YouTube and twitch reached 500+ followers, and 750+ on discord. Unfortunately, we didn't get to finish this game due to insufficient budget, and the game was never published as Squido may decide to bring the IP back someday. As of 2025-10-23, all development has halted. While Submerged was one of the more impressive games I've worked on, it's unfortunately we may never see it come to life.
                     </div>
-                </div> <!--Submerged-->
-                <div class = "gallery-item" >
-    
-                    <div class = "gallery-text" onclick="window.open('https://flamingoezpz.itch.io/brawl-balls')">
-                        <text-a>Brawl Balls | </text-a>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-text" onclick="window.open('https://flamingoezpz.itch.io/brawl-balls')">
+                        <text-a>Brawl Balls |</text-a>
                         <text-link>Download on Itch or appstores</text-link>
                     </div>
                     <div class="gallery-media">
-
-                    <img src="Assets/Videos/Unity/BallsCover.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop >
-                        <source src="Assets/Videos/Unity/BallsHover.webm" type="video/webm">
-                        
-                    </video>
-                        </div>
-                    <div class = "gallery-textbox">
-                            Brawl Balls is an Action Multiplayer Game created in a month by 6 people. It is one of my favourite projects, and I think is an excellent showcase of my knowledge of Unity. My major role on this project was the main menu, local splitscreen, and some of the netcode. I also was responsible for many of the particle effects, and project optimization. As of April 2025 Brawl Balls is still in development, and we hope to see it on app stores in September, and eventually all devices as the game is also cross-platform.
+                        <img src="Assets/Videos/Unity/BallsCover.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/Unity/BallsHover.webm" type="video/webm">
+                        </video>
                     </div>
-                </div> <!--Brawl Balls-->
-                <div class = "gallery-item" >
-                    <div class = "gallery-text" onclick="window.open('Projects/Unity/Chicken%20Chaser/index.html')">
+                    <div class="gallery-textbox">
+                        Brawl Balls is an Action Multiplayer Game created in a month by 6 people. It is one of my favourite projects, and I think is an excellent showcase of my knowledge of Unity. My major role on this project was the main menu, local splitscreen, and some of the netcode. I also was responsible for many of the particle effects, and project optimization. As of April 2025 Brawl Balls is still in development, and we hope to see it on app stores in September, and eventually all devices as the game is also cross-platform.
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-text" onclick="window.open('Projects/Unity/Chicken%20Chaser/index.html')">
                         <text-a>Chicken Chaser |</text-a>
                         <text-link>Play In Browser</text-link>
                     </div>
                     <div class="gallery-media">
-
-                    <img src="Assets/Videos/Unity/ChickenCover.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop  >
-                        <source src="Assets/Videos/Unity/ChickenHover.webm" type="video/webm">
-                        
-                    </video>
-                        </div>
-                    <div class = "gallery-textbox">
+                        <img src="Assets/Videos/Unity/ChickenCover.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/Unity/ChickenHover.webm" type="video/webm">
+                        </video>
+                    </div>
+                    <div class="gallery-textbox">
                         Chicken Chaser is another game developed for RP4K, created in 2023. Chicken Chaser was designed to be an entry point into Unity, teaching students the correct way to do things. The course teaches students the fundamentals of Unity, understanding that everything is a GameObject composed by Components, and understand the usage of many common components, and creating new components. This project also teaches scriptable objects, and while not emphasized, shows students what a properly structured program should look like using design patterns to manage flow. As with all my Unity games, Chicken chaser works on every platform. Music was created by Sebastian Finkbeiner.
                     </div>
-                </div> <!--Chicken Chaser-->
-                <div class = "gallery-item" >
-                    
-                    <div class = "gallery-text" onclick="window.open('Projects/Unity/DiceDuel/index.html')"> 
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-text" onclick="window.open('Projects/Unity/DiceDuel/index.html')">
                         <text-a>Dice Duel |</text-a>
                         <text-link>Play In Browser</text-link>
                     </div>
                     <div class="gallery-media">
-                    <img src="Assets/Videos/MissingFootage.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop  >
-                        <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-                        
-                    </video>
-                        </div>
-
-                        <div class = "gallery-textbox">
+                        <img src="Assets/Videos/MissingFootage.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
+                        </video>
+                    </div>
+                    <div class="gallery-textbox">
                         Dice Duel is another game created for RP4K, created in 2025. Dice Duel was a special request from the CEO to create a game that teaches students the binomial distribution. Dice duel while having a strong emphasis on statistics and math, also emphasizes good code practices and abiding by SOLID principles. In my opinion, it's one of the most valuable courses a student could take while at RP4K, however, I also think that the gameplay is not for everyone, and it's definitely a challenging course. Another notable feature of Dice Duel is learning how to make re-usable components, such as a "Drag and Drop" feature. While the game can be played in its current state, it can be very confusing; hopefully one day I add a tutorial so people can experience the game properly. Art created by Nicholas Ye, Sound and Music by Sebastian Finkbeiner
                     </div>
-                </div> <!--Dice Duel-->
-                <div class = "gallery-item" >
-                    <div class = "gallery-text" onclick="window.open('https://github.com/NathanSandler/Fish-Game')">
-                        <text-a>Special Defishion | </text-a>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-text" onclick="window.open('https://github.com/NathanSandler/Fish-Game')">
+                        <text-a>Special Defishion |</text-a>
                         <text-link>View Code</text-link>
                     </div>
                     <div class="gallery-media">
-                    <img src="Assets/Videos/MissingFootage.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop  >
-                        <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-                        
-                    </video>
+                        <img src="Assets/Videos/MissingFootage.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
+                        </video>
                     </div>
-                    <div class = "gallery-textbox">
+                    <div class="gallery-textbox">
                         Special Defision was created in 2023 and was made alongside a student at RP4K, this student was particularly bright, and requested we make a game using DOTS. This game was created over the span of 18 weeks, and was my first proper experience with DOTS. While the project isn't anything crazy, the FPS is. And even though the code is incredibly complex, I look forward to the next time I make a DOTS game, the optimization is just too good.
                     </div>
-                </div> <!--Special Defishon-->
+                </div>
             </div>
-        </div> <!-- C# Unity Project-->
-        <div class = "core-content-field" id = "C++Unreal"> <!-- C++ Unreal Engine Projects -->
-            <div class = "gallery">
-                <div class = "gallery-item" >
-    
-                    <div class = "gallery-text" onclick="window.open('https://www.youtube.com/watch?v=flfxAmCfa9M')">
+        </div>
+
+        <div class="core-content-field" id="C++Unreal">
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-text" onclick="window.open('https://www.youtube.com/watch?v=flfxAmCfa9M')">
                         <text-a>Glumphus |</text-a>
                         <text-link>Watch Videos</text-link>
                     </div>
                     <div class="gallery-media">
-
-                    <img src="Assets/Videos/Unreal/GlumphusCover.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop >
-                        <source src="Assets/Videos/Unreal/GlumphusHover.webm" type="video/webm">
-                    </video>
+                        <img src="Assets/Videos/Unreal/GlumphusCover.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/Unreal/GlumphusHover.webm" type="video/webm">
+                        </video>
                     </div>
-                    <div class = "gallery-textbox">
+                    <div class="gallery-textbox">
                         Glumphus was one of my favourite projects to work on. Glumphus is a multiplayer magical extraction shooter, designed to make extraction games easier to get into and more player friendly. Created at Ontario Tech University in 2024, in our group of 7, my main responsibility was project management, VFX, Cinematics, some of the netcode, and the infrastracture for the Gem Ability System (Yes we used GAS too). This was my first project in Unreal Engine, and I think it looks beautiful. Admittedly, it's a bit taxing to run, and is unplayable because the servers have been shutdown, but you can watch some of our old videos if you're curious.
                     </div>
-                </div> <!--Glumphus-->
-                <div class = "gallery-item" >
-                    <div class = "gallery-text" onclick="window.open('https://www.youtube.com/watch?v=sdMW1vjLZjg')">
-                        <text-a>Bacteriophage | </text-a>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-text" onclick="window.open('https://www.youtube.com/watch?v=sdMW1vjLZjg')">
+                        <text-a>Bacteriophage |</text-a>
                         <text-link>Watch Videos</text-link>
                     </div>
                     <div class="gallery-media">
-                    <img src="Assets/Videos/Unreal/BacterioCover.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop  >
-                        <source src="Assets/Videos/Unreal/BacterioHover.webm" type="video/webm">
-                        
-                    </video>
+                        <img src="Assets/Videos/Unreal/BacterioCover.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/Unreal/BacterioHover.webm" type="video/webm">
+                        </video>
                     </div>
-                    <div class = "gallery-textbox">
+                    <div class="gallery-textbox">
                         Bacteriophage is a platformer game created at OTU. Working on Bacteriophage was interesting as our group size was 14 members, if I could go back, I would completely change how the team was handled and the game was created. My main role on the team was VFX, and programming where I aided with ideation and creation of a GAS combat system which would enable designers to play animations, effects, noises or run logic from a simplified object, controlled by a character.
                     </div>
-                </div> <!--Bacteriophage-->
+                </div>
             </div>
         </div>
-        <div class = "core-content-field" id = "Other"> <!-- Other Projects -->
-            <div class = "gallery">
-                <div class = "gallery-item" >
-    
-                    <div class = "gallery-text" onclick="window.open('https://editor.p5js.org/gabekotton/sketches/ApPF65XdI')">
+
+        <div class="core-content-field" id="Other">
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-text" onclick="window.open('https://editor.p5js.org/gabekotton/sketches/ApPF65XdI')">
                         <text-a>Planet Pusher |</text-a>
                         <text-link>Play In Browser</text-link>
                     </div>
-
                     <div class="gallery-media">
-                    <img src="Assets/Videos/MissingFootage.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop >
-                        <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-                    </video>
+                        <img src="Assets/Videos/MissingFootage.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
+                        </video>
                     </div>
-                    <div class = "gallery-textbox">
+                    <div class="gallery-textbox">
                         Planet Pusher is a game I created for RP4K in 2023 using P5.js (JavaScript), but one that we are not using. It was my first real experience in JS and CSS. (I definitely committed a lot of coding crimes making this one xD). Nothing super notable about this one, just a cool JS project.
                     </div>
-                </div> <!--Planet Pusher-->
-                <div class = "gallery-item" >
-                    <div class = "gallery-text">
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-text">
                         <text-a>Arduino Lights</text-a>
                     </div>
                     <div class="gallery-media">
-                    <img src="Assets/Videos/MissingFootage.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop  >
-                        <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-                    </video>
+                        <img src="Assets/Videos/MissingFootage.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
+                        </video>
                     </div>
-                    <div class = "gallery-textbox">
-                        Created in Arduino C++ 2025, making these lights has always been something I've wanted to do... Just fun motion-activated lights that I can show off when I have guests over.  For you, you may want to show off your cool car, or your shoes. To me, this. This is peak flex.
+                    <div class="gallery-textbox">
+                        Created in Arduino C++ 2025, making these lights has always been something I've wanted to do... Just fun motion-activated lights that I can show off when I have guests over. For you, you may want to show off your cool car, or your shoes. To me, this. This is peak flex.
                     </div>
-                </div> <!--Arduino Lights-->
-                <div class = "gallery-item" >
-                    <div class = "gallery-text">
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-text">
                         <text-a>This website?</text-a>
                     </div>
                     <div class="gallery-media">
-                    <img src="Assets/Videos/MissingFootage.webp"   alt="Failed To Load Resources">
-                    <video preload="auto" autoplay muted playsinline loop  >
-                        <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-                    </video>
+                        <img src="Assets/Videos/MissingFootage.webp" alt="Failed To Load Resources">
+                        <video preload="auto" autoplay muted playsinline loop>
+                            <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
+                        </video>
                     </div>
-                    <div class = "gallery-textbox">
+                    <div class="gallery-textbox">
                         Congrats! You made it to the end of the website! I created this website in 2025 with pure HTML, CSS and JS, I did get a bit of help from ChatGPT, but I created the majority of the website myself! If you're experienced in web-dev, I'm sure you can hit F12 and see all the stupid mistakes. My favourite part of creating this website was the WebGL canvas, and I feel like it's the best way to both hook someone, and show them who I am. I love art, I love math, I love game, and most importantly I am very strange!
                     </div>
-                </div> <!--This Website-->
+                </div>
             </div>
         </div>
-    </div>
-    <br>
-    <div>
-        <h2>Created by Gabe Kotton</h2>
-        <div class = "icon-button-container">
-        <button onclick="window.open('https://github.com/FlamingoeZpZ')" class = "icon-button">
-            <img src = "Assets/Images/SocialMedia/GitHub.webp" alt = "Github" class = "button-icon">
-        </button>
 
-        <button onclick="window.open('https://www.youtube.com/@gabek5760')" class = "icon-button">
-            <img src = "Assets/Images/SocialMedia/Youtube.webp" alt = "Youtube" class = "button-icon">
-        </button>
-
-        <button onclick="window.open('https://www.linkedin.com/in/gabe-kotton-b21050245/')" class = "icon-button">
-            <img src = "Assets/Images/SocialMedia/Linkedin.webp" alt = "Github" class = "button-icon">
-        </button>
-
-        <button onclick="window.open('https://flamingoezpz.itch.io/')" class = "icon-button">
-            <img src = "Assets/Images/SocialMedia/Itch.webp" alt = "Github" class = "button-icon">
-        </button>
-        </div>
     </div>
 </div>
+
+<footer id="site-footer">
+    <p class="footer-name">Gabe <span>Kotton</span></p>
+    <div class="social-row">
+        <button onclick="window.open('https://github.com/FlamingoeZpZ')" class="social-btn" aria-label="GitHub">
+            <img src="Assets/Images/SocialMedia/GitHub.webp" alt="GitHub">
+        </button>
+        <button onclick="window.open('https://www.youtube.com/@gabek5760')" class="social-btn" aria-label="YouTube">
+            <img src="Assets/Images/SocialMedia/Youtube.webp" alt="YouTube">
+        </button>
+        <button onclick="window.open('https://www.linkedin.com/in/gabe-kotton-b21050245/')" class="social-btn" aria-label="LinkedIn">
+            <img src="Assets/Images/SocialMedia/Linkedin.webp" alt="LinkedIn">
+        </button>
+        <button onclick="window.open('https://flamingoezpz.itch.io/')" class="social-btn" aria-label="itch.io">
+            <img src="Assets/Images/SocialMedia/Itch.webp" alt="itch.io">
+        </button>
+    </div>
+    <p class="footer-copy">Shaders made by me with WebGL, website made with help from Claude AI.</p>
+</footer>
+
 <script src="core.js"></script>
 <script src="webgl_canvas.js"></script>
+<script>
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+</script>
+
 </body>
 </html>
