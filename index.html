@@ -26,235 +26,97 @@
         *, *::before, *::after { box-sizing: border-box; }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            overflow-y: auto;
-            overflow-x: hidden;
+            margin: 0; padding: 0;
+            overflow-y: auto; overflow-x: hidden;
             font-family: var(--font-mono);
             background-color: var(--bg);
             color: var(--text);
         }
 
         #glCanvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 0;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: 0;
         }
 
         #hero {
-            position: relative;
-            z-index: 10;
+            position: relative; z-index: 10;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
             justify-content: flex-end;
             padding: 0 5vw 6vh;
         }
 
         .hero-inner {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            display: flex; flex-direction: column; gap: 1.5rem;
+            width: 100%;
         }
 
         .hero-eyebrow {
-            font-family: var(--font-mono);
-            font-size: clamp(10px, 1.1vw, 14px);
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--gold);
-            opacity: 0;
-            animation: fadeUp 0.8s ease 0.1s forwards;
+            font-family: var(--font-mono); font-size: clamp(10px,1.1vw,14px);
+            letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold);
+            opacity: 0; animation: fadeUp 0.8s ease 0.1s forwards;
+            text-shadow: 0 1px 12px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.7);
         }
 
         .hero-name {
-            font-family: var(--font-display);
-            font-size: clamp(3rem, 9vw, 8rem);
-            font-weight: 800;
-            line-height: 0.95;
-            letter-spacing: -0.02em;
-            margin: 0;
-            color: var(--text);
-            opacity: 0;
-            animation: fadeUp 0.9s ease 0.25s forwards;
+            font-family: var(--font-display); font-size: clamp(3rem,9vw,8rem);
+            font-weight: 800; line-height: 0.95; letter-spacing: -0.02em; margin: 0;
+            color: var(--text); opacity: 0; animation: fadeUp 0.9s ease 0.25s forwards;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.95), 0 0 60px rgba(0,0,0,0.8);
         }
-
         .hero-name span { color: var(--gold); }
 
         .hero-tagline {
-            font-family: var(--font-mono);
-            font-size: clamp(11px, 1.3vw, 16px);
-            color: var(--text-muted);
-            max-width: 440px;
-            line-height: 1.6;
-            margin: 0;
-            opacity: 0;
-            animation: fadeUp 0.9s ease 0.4s forwards;
+            font-family: var(--font-mono); font-size: clamp(11px,1.3vw,16px);
+            color: var(--text-muted); max-width: 440px; line-height: 1.6; margin: 0;
+            opacity: 0; animation: fadeUp 0.9s ease 0.4s forwards;
+            text-shadow: 0 1px 12px rgba(0,0,0,0.95), 0 0 30px rgba(0,0,0,0.8);
         }
 
         .hero-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            opacity: 0;
-            animation: fadeUp 0.9s ease 0.55s forwards;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 1.5rem;
+            opacity: 0; animation: fadeUp 0.9s ease 0.55s forwards;
         }
 
-        .social-row {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
+        .social-row { display: flex; align-items: center; gap: 0.75rem; }
 
         .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             width: 42px; height: 42px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-            padding: 0;
+            background: var(--surface); border: 1px solid var(--border); border-radius: 50%;
+            cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; padding: 0;
         }
-
-        .social-btn:hover {
-            transform: translateY(-3px);
-            border-color: var(--gold-dim);
-            background: rgba(232,201,106,0.1);
-        }
-
-        .social-btn img {
-            width: 20px; height: 20px;
-            object-fit: contain;
-            filter: brightness(0.85);
-            transition: filter 0.2s;
-        }
-
+        .social-btn:hover { transform: translateY(-3px); border-color: var(--gold-dim); background: rgba(232,201,106,0.1); }
+        .social-btn img { width: 20px; height: 20px; object-fit: contain; filter: brightness(0.85); transition: filter 0.2s; }
         .social-btn:hover img { filter: brightness(1.1); }
 
         .shader-btn {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--gold);
-            background: rgba(232,201,106,0.08);
-            border: 1px solid var(--gold-dim);
-            border-radius: 999px;
-            padding: 10px 22px;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.2s;
+            font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--gold); background: rgba(232,201,106,0.08); border: 1px solid var(--gold-dim);
+            border-radius: 999px; padding: 10px 22px; cursor: pointer; transition: background 0.2s, transform 0.2s;
         }
+        .shader-btn:hover { background: rgba(232,201,106,0.18); transform: scale(1.05); }
 
-        .shader-btn:hover {
-            background: rgba(232,201,106,0.18);
-            transform: scale(1.05);
-        }
-
-        .divider {
-            width: 60px;
-            height: 2px;
-            background: var(--gold-dim);
-            margin: 0 auto 2.5rem;
-            opacity: 0.5;
-        }
+        .divider { width: 60px; height: 2px; background: var(--gold-dim); margin: 0 auto 2.5rem; opacity: 0.5; }
 
         #core {
-            position: relative;
-            z-index: 10;
+            position: relative; z-index: 10;
             background: linear-gradient(to bottom, transparent, var(--bg) 6rem);
-            padding: 0 5vw 6rem;
-            transition: background-color 0.4s ease;
+            padding: 8rem 5vw 6rem;
         }
-
-        .tab-bar {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            margin-bottom: 3.5rem;
-        }
-
-        .tab-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 999px;
-            font-family: var(--font-mono);
-            font-size: clamp(10px, 1.1vw, 13px);
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
-        }
-
-        .tab-btn img {
-            width: 18px; height: 18px;
-            object-fit: contain;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-
-        .tab-btn:hover {
-            color: var(--text);
-            border-color: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
-
-        .tab-btn:hover img { opacity: 1; }
-
-        .tab-btn[data-color="java"].active   { color: #e8b4a0; border-color: #c4897a; background: rgba(128,88,73,0.2); }
-        .tab-btn[data-color="unity"].active  { color: #c9a8f0; border-color: #9d6ed4; background: rgba(107,63,160,0.2); }
-        .tab-btn[data-color="unreal"].active { color: #a8c8e0; border-color: #6a9bba; background: rgba(59,88,112,0.2); }
-        .tab-btn[data-color="other"].active  { color: #a8d4bc; border-color: #7ab394; background: rgba(77,110,93,0.2); }
-        .tab-btn.active img { opacity: 1; }
 
         .section-label {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 2.5rem;
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em;
+            text-transform: uppercase; color: var(--text-muted); text-align: center; margin-bottom: 2rem;
         }
 
         #site-footer {
-            position: relative;
-            z-index: 10;
-            background: var(--bg);
-            border-top: 1px solid var(--border);
-            padding: 3rem 5vw;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-            text-align: center;
+            position: relative; z-index: 10; background: var(--bg);
+            border-top: 1px solid var(--border); padding: 3rem 5vw;
+            display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center;
         }
-
-        .footer-name {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-        }
-
-        .footer-name span { color: var(--gold); }
-
-        .footer-copy {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
-        }
+        .footer-copy { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); letter-spacing: 0.05em; }
 
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(24px); }
@@ -263,7 +125,6 @@
 
         @media (max-width: 650px) {
             .hero-footer { flex-direction: column; align-items: flex-start; }
-            .tab-btn span { display: none; }
         }
     </style>
 </head>
@@ -298,252 +159,108 @@
 </section>
 
 <div class="content" id="core">
+    <!-- FILTER SECTIONS -->
+    <div class="filter-sections">
 
-    <div class="divider"></div>
-    <p class="section-label">Selected Projects</p>
+        <!-- ENGINE -->
+        <div class="filter-section">
+            <div class="filter-section-label">Engine / Language</div>
+            <div class="filter-group" id="engineFilters">
+                <button class="filter-chip active" data-engine="all">
+                    <span class="chip-text">All</span>
+                </button>
+                <button class="filter-chip" data-engine="java">
+                    <img src="Assets/Images/Project/Java.webp" alt="">
+                    <img src="Assets/Images/Project/Processing.webp" alt="">
+                    <span class="chip-text">Java / Processing</span>
+                </button>
+                <button class="filter-chip" data-engine="unity">
+                    <img src="Assets/Images/Project/CSharp.webp" alt="">
+                    <img src="Assets/Images/Project/Unity.webp" alt="">
+                    <span class="chip-text">C# / Unity</span>
+                </button>
+                <button class="filter-chip" data-engine="unreal">
+                    <img src="Assets/Images/Project/CPlusPlus.webp" alt="">
+                    <img src="Assets/Images/Project/Unreal.webp" alt="">
+                    <span class="chip-text">C++ / Unreal</span>
+                </button>
+                <button class="filter-chip" data-engine="other">
+                    <img src="Assets/Images/Project/Mystery.webp" alt="">
+                    <span class="chip-text">Other</span>
+                </button>
+            </div>
+        </div>
 
-    <div class="tab-bar">
-        <button onclick="showProcessing()" class="tab-btn active" data-color="java" id="JavaButton">
-            <img src="Assets/Images/Project/Java.webp" alt="">
-            <img src="Assets/Images/Project/Processing.webp" alt="">
-            <span>Java / Processing</span>
-        </button>
-        <button onclick="showUnity()" class="tab-btn" data-color="unity" id="UnityButton">
-            <img src="Assets/Images/Project/CSharp.webp" alt="">
-            <img src="Assets/Images/Project/Unity.webp" alt="">
-            <span>C# / Unity</span>
-        </button>
-        <button onclick="showUnreal()" class="tab-btn" data-color="unreal" id="UnrealButton">
-            <img src="Assets/Images/Project/CPlusPlus.webp" alt="">
-            <img src="Assets/Images/Project/Unreal.webp" alt="">
-            <span>C++ / Unreal</span>
-        </button>
-        <button onclick="showOther()" class="tab-btn" data-color="other" id="OtherButton">
-            <img src="Assets/Images/Project/Mystery.webp" alt="">
-            <span>Other</span>
-        </button>
+        <!-- PLATFORM -->
+        <div class="filter-section">
+            <div class="filter-section-label">Platform</div>
+            <div class="filter-group" id="platformFilters">
+                <button class="filter-chip" data-platform="web">
+                    <img src="Assets/Images/Project/Platform/Desktop.webp" alt="">
+                    <span class="chip-text">Web</span>
+                </button>
+                <button class="filter-chip" data-platform="mobile">
+                    <img src="Assets/Images/Project/Platform/Mobile.webp" alt="">
+                    <span class="chip-text">Mobile</span>
+                </button>
+                <button class="filter-chip" data-platform="steam">
+                    <img src="Assets/Images/Project/Platform/Steam.webp" alt="">
+                    <span class="chip-text">Steam</span>
+                </button>
+                <button class="filter-chip" data-platform="epic">
+                    <img src="Assets/Images/Project/Platform/Controller.webp" alt="">
+                    <span class="chip-text">Epic Games</span>
+                </button>
+                <button class="filter-chip" data-platform="unreleased">
+                    <span class="chip-text">🔒 Unreleased</span>
+                </button>
+                <button class="filter-chip" data-platform="quest">
+                    <span class="chip-text">🥽 Meta Quest</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- SORT -->
+        <div class="filter-section">
+            <div class="filter-section-label">Sort By</div>
+            <div class="filter-group" id="sortFilters">
+                <button class="filter-chip active" data-sort="default"><span class="chip-text">Default</span></button>
+                <button class="filter-chip" data-sort="alpha"><span class="chip-text">A – Z</span></button>
+                <button class="filter-chip" data-sort="date-new"><span class="chip-text">Newest</span></button>
+                <button class="filter-chip" data-sort="date-old"><span class="chip-text">Oldest</span></button>
+            </div>
+        </div>
+
     </div>
 
-    <div class="core-content">
+    <!-- GALLERY -->
+    <div class="gallery" id="mainGallery"></div>
+</div>
 
-        <div class="core-content-field" id="JavaProcessing">
-            <div class="gallery">
-                <div class="gallery-item">
-                    <div class="gallery-text" onclick="window.open('Projects/Processing%20Java/Sheep%20Herder/SheepHerder.html')">
-                        <text-a>Sheep Herder |</text-a>
-                        <text-link>Play In Browser</text-link>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/Java/SheepCover.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/Java/SheepHover.webm" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Sheep Herder was the first game I created for RP4K, made in 2022. Sheep herder is a simple game, smaller than 250 lines of code, that is aimed at teaching the basics of Java and Processing, while also exploring concepts such as linked lists. The course is designed to be easy to learn while still being enjoyable, providing an opportunity for kids of any age to get started learning code. Nicholas Ye created the art for this game.
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-text" onclick="window.open('Projects/Processing%20Java/Toadal%20Chaos/ToadalChaos.html')">
-                        <text-a>Toadal Chaos |</text-a>
-                        <text-link>Play In Browser</text-link>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/Java/ToadCover.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/Java/ToadHover.webm" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Toadal Chaos was the third game I created for RP4K, made in 2024. My core philosophy while creating Toadal Chaos was to encourage Object-Oriented Programming, and allowing students to take control over their code. In this course, students learn about and repeatedly use concepts such as composition, abstraction (interfaces too), and inheritance to leverage the efficient code. The art for Toadal Chaos was created by Nicholas Ye.
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-text" onclick="window.open('Projects/Processing%20Java/Polar%20Peril/PolarPeril.html')">
-                        <text-a>Polar Peril 2 |</text-a>
-                        <text-link>Play In Browser</text-link>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/Java/PolarCover.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/Java/PolarHover.webm" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Polar Peril 2 is a re-make of one of RP4Ks games, Polar Peril (Crazy right??). The original game features ~8 different classes, with no inheritance and requires students to copy and paste code between their classes. Collisions are done manually class to class, I.E. the snowball to the player. The original version of the game is essentially Donkey Kong, and I personally didn't find the game fun to make, so when I was asked to re-do it, I jumped at it. I created Polar Peril 2 in 2024.
-                    </div>
-                </div>
-            </div>
+<!-- MODAL -->
+<div id="gallery-modal" role="dialog" aria-modal="true">
+    <div class="modal-inner" id="modalInner">
+        <div class="modal-media" id="modalMedia">
+            <img id="modalImg" src="" alt="">
+            <video id="modalVideo" muted playsinline loop></video>
         </div>
-
-        <div class="core-content-field" id="C#Unity">
-            <div class="gallery">
-                <div class="gallery-item">
-                    <div class="gallery-text" onclick="window.open('https://www.youtube.com/channel/UCGhSo17zBKyPe77vN8KRCXA')">
-                        <text-a>SUBMERGED |</text-a>
-                        <text-link>YouTube</text-link>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/Unity/SubmergedCover.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Submerged is a VR social sandbox game developed in two months under contract of Squido Studios, during this time our YouTube and twitch reached 500+ followers, and 750+ on discord. Unfortunately, we didn't get to finish this game due to insufficient budget, and the game was never published as Squido may decide to bring the IP back someday. As of 2025-10-23, all development has halted. While Submerged was one of the more impressive games I've worked on, it's unfortunately we may never see it come to life.
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-text" onclick="window.open('https://flamingoezpz.itch.io/brawl-balls')">
-                        <text-a>Brawl Balls |</text-a>
-                        <text-link>Download on Itch or appstores</text-link>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/Unity/BallsCover.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/Unity/BallsHover.webm" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Brawl Balls is an Action Multiplayer Game created in a month by 6 people. It is one of my favourite projects, and I think is an excellent showcase of my knowledge of Unity. My major role on this project was the main menu, local splitscreen, and some of the netcode. I also was responsible for many of the particle effects, and project optimization. As of April 2025 Brawl Balls is still in development, and we hope to see it on app stores in September, and eventually all devices as the game is also cross-platform.
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-text" onclick="window.open('Projects/Unity/Chicken%20Chaser/index.html')">
-                        <text-a>Chicken Chaser |</text-a>
-                        <text-link>Play In Browser</text-link>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/Unity/ChickenCover.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/Unity/ChickenHover.webm" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Chicken Chaser is another game developed for RP4K, created in 2023. Chicken Chaser was designed to be an entry point into Unity, teaching students the correct way to do things. The course teaches students the fundamentals of Unity, understanding that everything is a GameObject composed by Components, and understand the usage of many common components, and creating new components. This project also teaches scriptable objects, and while not emphasized, shows students what a properly structured program should look like using design patterns to manage flow. As with all my Unity games, Chicken chaser works on every platform. Music was created by Sebastian Finkbeiner.
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-text" onclick="window.open('Projects/Unity/DiceDuel/index.html')">
-                        <text-a>Dice Duel |</text-a>
-                        <text-link>Play In Browser</text-link>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/MissingFootage.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Dice Duel is another game created for RP4K, created in 2025. Dice Duel was a special request from the CEO to create a game that teaches students the binomial distribution. Dice duel while having a strong emphasis on statistics and math, also emphasizes good code practices and abiding by SOLID principles. In my opinion, it's one of the most valuable courses a student could take while at RP4K, however, I also think that the gameplay is not for everyone, and it's definitely a challenging course. Another notable feature of Dice Duel is learning how to make re-usable components, such as a "Drag and Drop" feature. While the game can be played in its current state, it can be very confusing; hopefully one day I add a tutorial so people can experience the game properly. Art created by Nicholas Ye, Sound and Music by Sebastian Finkbeiner
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-text" onclick="window.open('https://github.com/NathanSandler/Fish-Game')">
-                        <text-a>Special Defishion |</text-a>
-                        <text-link>View Code</text-link>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/MissingFootage.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Special Defision was created in 2023 and was made alongside a student at RP4K, this student was particularly bright, and requested we make a game using DOTS. This game was created over the span of 18 weeks, and was my first proper experience with DOTS. While the project isn't anything crazy, the FPS is. And even though the code is incredibly complex, I look forward to the next time I make a DOTS game, the optimization is just too good.
-                    </div>
-                </div>
+        <div class="modal-body">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
             </div>
-        </div>
-
-        <div class="core-content-field" id="C++Unreal">
-            <div class="gallery">
-                <div class="gallery-item">
-                    <div class="gallery-text" onclick="window.open('https://www.youtube.com/watch?v=flfxAmCfa9M')">
-                        <text-a>Glumphus |</text-a>
-                        <text-link>Watch Videos</text-link>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/Unreal/GlumphusCover.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/Unreal/GlumphusHover.webm" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Glumphus was one of my favourite projects to work on. Glumphus is a multiplayer magical extraction shooter, designed to make extraction games easier to get into and more player friendly. Created at Ontario Tech University in 2024, in our group of 7, my main responsibility was project management, VFX, Cinematics, some of the netcode, and the infrastracture for the Gem Ability System (Yes we used GAS too). This was my first project in Unreal Engine, and I think it looks beautiful. Admittedly, it's a bit taxing to run, and is unplayable because the servers have been shutdown, but you can watch some of our old videos if you're curious.
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-text" onclick="window.open('https://www.youtube.com/watch?v=sdMW1vjLZjg')">
-                        <text-a>Bacteriophage |</text-a>
-                        <text-link>Watch Videos</text-link>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/Unreal/BacterioCover.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/Unreal/BacterioHover.webm" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Bacteriophage is a platformer game created at OTU. Working on Bacteriophage was interesting as our group size was 14 members, if I could go back, I would completely change how the team was handled and the game was created. My main role on the team was VFX, and programming where I aided with ideation and creation of a GAS combat system which would enable designers to play animations, effects, noises or run logic from a simplified object, controlled by a character.
-                    </div>
-                </div>
+            <div class="modal-info-row" id="modalInfoRow"></div>
+            <p class="modal-desc" id="modalDesc"></p>
+            <div id="modalToolsSection" style="display:none">
+                <div class="modal-tools-label">Languages &amp; Tools</div>
+                <div class="modal-tools-row" id="modalTools"></div>
             </div>
+            <div class="modal-link-row" id="modalLinks"></div>
         </div>
-
-        <div class="core-content-field" id="Other">
-            <div class="gallery">
-                <div class="gallery-item">
-                    <div class="gallery-text" onclick="window.open('https://editor.p5js.org/gabekotton/sketches/ApPF65XdI')">
-                        <text-a>Planet Pusher |</text-a>
-                        <text-link>Play In Browser</text-link>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/MissingFootage.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Planet Pusher is a game I created for RP4K in 2023 using P5.js (JavaScript), but one that we are not using. It was my first real experience in JS and CSS. (I definitely committed a lot of coding crimes making this one xD). Nothing super notable about this one, just a cool JS project.
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-text">
-                        <text-a>Arduino Lights</text-a>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/MissingFootage.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Created in Arduino C++ 2025, making these lights has always been something I've wanted to do... Just fun motion-activated lights that I can show off when I have guests over. For you, you may want to show off your cool car, or your shoes. To me, this. This is peak flex.
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-text">
-                        <text-a>This website?</text-a>
-                    </div>
-                    <div class="gallery-media">
-                        <img src="Assets/Videos/MissingFootage.webp" alt="Failed To Load Resources">
-                        <video preload="auto" autoplay muted playsinline loop>
-                            <source src="Assets/Videos/MissingFootage.webp" type="video/webm">
-                        </video>
-                    </div>
-                    <div class="gallery-textbox">
-                        Congrats! You made it to the end of the website! I created this website in 2025 with pure HTML, CSS and JS, I did get a bit of help from ChatGPT, but I created the majority of the website myself! If you're experienced in web-dev, I'm sure you can hit F12 and see all the stupid mistakes. My favourite part of creating this website was the WebGL canvas, and I feel like it's the best way to both hook someone, and show them who I am. I love art, I love math, I love game, and most importantly I am very strange!
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 
 <footer id="site-footer">
-    <p class="footer-name">Gabe <span>Kotton</span></p>
     <div class="social-row">
         <button onclick="window.open('https://github.com/FlamingoeZpZ')" class="social-btn" aria-label="GitHub">
             <img src="Assets/Images/SocialMedia/GitHub.webp" alt="GitHub">
@@ -558,18 +275,366 @@
             <img src="Assets/Images/SocialMedia/Itch.webp" alt="itch.io">
         </button>
     </div>
-    <p class="footer-copy">Shaders made by me with WebGL, website made with help from Claude AI.</p>
+    <p class="footer-copy">WebGL shaders crafted by Gabe Kotton &nbsp;·&nbsp; Site design assisted by Claude AI</p>
 </footer>
 
-<script src="core.js"></script>
+<script>
+    // webgl_canvas.js calls coreMain() on startup — stub it since tabs are gone
+    function coreMain() {}
+</script>
 <script src="webgl_canvas.js"></script>
 <script>
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        });
+    // ── PROJECT DATA ─────────────────────────────────────────────
+    const PROJECTS = [
+        {
+            id: 'sheep-herder',
+            title: 'Sheep Herder',
+            engine: 'java',
+            date: '2022-01-01',
+            year: '2022',
+            platforms: ['web'],
+            tools: ['Java', 'Processing'],
+            cover: 'Assets/Videos/Java/SheepCover.webp',
+            video: 'Assets/Videos/Java/SheepHover.webm',
+            desc: `Sheep Herder was the first game I created for RP4K, made in 2022. It's a simple game, under 250 lines of code, aimed at teaching the basics of Java and Processing, while exploring concepts such as linked lists. The course is designed to be easy to learn while still being enjoyable, providing an opportunity for kids of any age to get started learning code. Nicholas Ye created the art for this game.`,
+            links: [{ label: '▶ Play In Browser', url: 'Projects/Processing%20Java/Sheep%20Herder/SheepHerder.html' }],
+        },
+        {
+            id: 'toadal-chaos',
+            title: 'Toadal Chaos',
+            engine: 'java',
+            date: '2024-01-01',
+            year: '2024',
+            platforms: ['web'],
+            tools: ['Java', 'Processing'],
+            cover: 'Assets/Videos/Java/ToadCover.webp',
+            video: 'Assets/Videos/Java/ToadHover.webm',
+            desc: `Toadal Chaos was the third game I created for RP4K, made in 2024. My core philosophy while creating it was to encourage Object-Oriented Programming and allowing students to take control over their code. Students learn about and repeatedly use composition, abstraction (interfaces too), and inheritance to write efficient code. Art by Nicholas Ye.`,
+            links: [{ label: '▶ Play In Browser', url: 'Projects/Processing%20Java/Toadal%20Chaos/ToadalChaos.html' }],
+        },
+        {
+            id: 'polar-peril',
+            title: 'Polar Peril 2',
+            engine: 'java',
+            date: '2024-06-01',
+            year: '2024',
+            platforms: ['web'],
+            tools: ['Java', 'Processing'],
+            cover: 'Assets/Videos/Java/PolarCover.webp',
+            video: 'Assets/Videos/Java/PolarHover.webm',
+            desc: `Polar Peril 2 is a remake of one of RP4K's games. The original had ~8 classes with no inheritance and required copy-pasting code between classes. I completely rethought the architecture, adding proper inheritance and component-based design. Created in 2024.`,
+            links: [{ label: '▶ Play In Browser', url: 'Projects/Processing%20Java/Polar%20Peril/PolarPeril.html' }],
+        },
+        {
+            id: 'submerged',
+            title: 'SUBMERGED',
+            engine: 'unity',
+            date: '2025-10-01',
+            year: '2025',
+            platforms: ['unreleased', 'quest'],
+            tools: ['C#', 'Unity', 'VR', 'Netcode'],
+            cover: 'Assets/Videos/Unity/SubmergedCover.webp',
+            video: null,
+            desc: `Submerged is a VR social sandbox game developed in two months under contract of Squido Studios. Our YouTube and Twitch reached 500+ followers, and 750+ on Discord. Unfortunately, development halted due to insufficient budget and the game was never published — Squido may bring the IP back someday. One of the more impressive projects I've worked on.`,
+            links: [{ label: '▶ Watch on YouTube', url: 'https://www.youtube.com/channel/UCGhSo17zBKyPe77vN8KRCXA' }],
+        },
+        {
+            id: 'brawl-balls',
+            title: 'Brawl Balls',
+            engine: 'unity',
+            date: '2025-04-01',
+            year: '2025',
+            platforms: ['mobile', 'steam'],
+            tools: ['C#', 'Unity', 'Netcode', 'Multiplayer'],
+            cover: 'Assets/Videos/Unity/BallsCover.webp',
+            video: 'Assets/Videos/Unity/BallsHover.webm',
+            desc: `Brawl Balls is an Action Multiplayer Game created in a month by 6 people — one of my favourite projects and an excellent showcase of my Unity knowledge. My major role was the main menu, local splitscreen, some netcode, particle effects, and optimization. As of April 2025 it's still in development; we hope to release on app stores in September.`,
+            links: [{ label: '⬇ Download on Itch', url: 'https://flamingoezpz.itch.io/brawl-balls' }],
+        },
+        {
+            id: 'chicken-chaser',
+            title: 'Chicken Chaser',
+            engine: 'unity',
+            date: '2023-01-01',
+            year: '2023',
+            platforms: ['web'],
+            tools: ['C#', 'Unity', 'Scriptable Objects'],
+            cover: 'Assets/Videos/Unity/ChickenCover.webp',
+            video: 'Assets/Videos/Unity/ChickenHover.webm',
+            desc: `Chicken Chaser is a game developed for RP4K, created in 2023. It was designed as an entry point into Unity — teaching the correct way to do things: understanding that everything is a GameObject composed of Components, scriptable objects, and proper design patterns. Works on every platform. Music by Sebastian Finkbeiner.`,
+            links: [{ label: '▶ Play In Browser', url: 'Projects/Unity/Chicken%20Chaser/index.html' }],
+        },
+        {
+            id: 'dice-duel',
+            title: 'Dice Duel',
+            engine: 'unity',
+            date: '2025-02-01',
+            year: '2025',
+            platforms: ['web'],
+            tools: ['C#', 'Unity', 'Statistics', 'Drag & Drop'],
+            cover: 'Assets/Videos/MissingFootage.webp',
+            video: null,
+            desc: `Dice Duel is a game created for RP4K in 2025, developed at the CEO's special request to teach the binomial distribution. It emphasizes good code practices, SOLID principles, and reusable components like a Drag and Drop system. Art by Nicholas Ye, Sound & Music by Sebastian Finkbeiner.`,
+            links: [{ label: '▶ Play In Browser', url: 'Projects/Unity/DiceDuel/index.html' }],
+        },
+        {
+            id: 'special-defishion',
+            title: 'Special Defishion',
+            engine: 'unity',
+            date: '2023-06-01',
+            year: '2023',
+            platforms: ['unreleased'],
+            tools: ['C#', 'Unity', 'DOTS', 'ECS'],
+            cover: 'Assets/Videos/MissingFootage.webp',
+            video: null,
+            desc: `Special Defishion was created in 2023 alongside a particularly bright RP4K student who requested we use DOTS. Made over 18 weeks, it was my first proper experience with the Data-Oriented Technology Stack. While the project isn't visually crazy, the FPS is absurd — and the optimization potential of DOTS keeps me excited for the next time I use it.`,
+            links: [{ label: '🔍 View Code', url: 'https://github.com/NathanSandler/Fish-Game' }],
+        },
+        {
+            id: 'glumphus',
+            title: 'Glumphus',
+            engine: 'unreal',
+            date: '2024-04-01',
+            year: '2024',
+            platforms: ['unreleased'],
+            tools: ['C++', 'Unreal Engine 5', 'GAS', 'Multiplayer', 'VFX'],
+            cover: 'Assets/Videos/Unreal/GlumphusCover.webp',
+            video: 'Assets/Videos/Unreal/GlumphusHover.webm',
+            desc: `Glumphus was one of my favourite projects. It's a multiplayer magical extraction shooter designed to make extraction games easier and more player-friendly. Created at Ontario Tech University in 2024 with a team of 7. My main responsibilities: project management, VFX, cinematics, some netcode, and the infrastructure for the Gem Ability System. My first Unreal project — and it looks beautiful.`,
+            links: [{ label: '▶ Watch Videos', url: 'https://www.youtube.com/watch?v=flfxAmCfa9M' }],
+        },
+        {
+            id: 'bacteriophage',
+            title: 'Bacteriophage',
+            engine: 'unreal',
+            date: '2024-10-01',
+            year: '2024',
+            platforms: ['unreleased'],
+            tools: ['C++', 'Unreal Engine 5', 'GAS', 'VFX'],
+            cover: 'Assets/Videos/Unreal/BacterioCover.webp',
+            video: 'Assets/Videos/Unreal/BacterioHover.webm',
+            desc: `Bacteriophage is a platformer game created at OTU with a team of 14 — a challenging group size I'd handle very differently today. My main role was VFX and programming, where I aided with ideation and creation of a GAS combat system enabling designers to trigger animations, effects, sounds, or logic from a simplified designer-controlled object.`,
+            links: [{ label: '▶ Watch Videos', url: 'https://www.youtube.com/watch?v=sdMW1vjLZjg' }],
+        },
+        {
+            id: 'planet-pusher',
+            title: 'Planet Pusher',
+            engine: 'other',
+            date: '2023-05-01',
+            year: '2023',
+            platforms: ['web'],
+            tools: ['JavaScript', 'P5.js', 'CSS'],
+            cover: 'Assets/Videos/MissingFootage.webp',
+            video: null,
+            desc: `Planet Pusher is a game I created for RP4K in 2023 using P5.js, though we ultimately didn't use it in the curriculum. It was my first real experience in JS and CSS. (I definitely committed a lot of coding crimes making this one 😄) Nothing super notable — just a cool JS project.`,
+            links: [{ label: '▶ Play In Browser', url: 'https://editor.p5js.org/gabekotton/sketches/ApPF65XdI' }],
+        },
+        {
+            id: 'arduino-lights',
+            title: 'Arduino Lights',
+            engine: 'other',
+            date: '2025-01-01',
+            year: '2025',
+            platforms: ['unreleased'],
+            tools: ['Arduino', 'C++', 'Electronics'],
+            cover: 'Assets/Videos/MissingFootage.webp',
+            video: null,
+            desc: `Created in Arduino C++ in 2025. Making these lights has always been something I've wanted to do... motion-activated lights that I can show off when I have guests over. To me, this is peak flex.`,
+            links: [],
+        },
+        {
+            id: 'this-website',
+            title: 'This Website',
+            engine: 'other',
+            date: '2025-03-01',
+            year: '2025',
+            platforms: ['web'],
+            tools: ['HTML', 'CSS', 'JavaScript', 'WebGL', 'GLSL'],
+            cover: 'Assets/Videos/MissingFootage.webp',
+            video: null,
+            desc: `Congrats! You made it to the end of the website! I created this in 2025 with pure HTML, CSS and JS, with a bit of help from Claude AI. My favourite part was the WebGL canvas — the best way to hook someone and show them who I am. I love art, I love math, I love games, and most importantly I am very strange!`,
+            links: [{ label: '⬒ GitHub', url: 'https://github.com/FlamingoeZpZ/FlamingoeZpZ.github.io' }],
+        },
+    ];
+
+    // ── STATE ─────────────────────────────────────────────────────
+    let activeEngine = 'all';
+    let activePlatform = null;
+    let activeSort = 'default';
+
+    // ── RENDER ────────────────────────────────────────────────────
+    function buildCard(p) {
+        const el = document.createElement('div');
+        el.className = 'gallery-item';
+        el.dataset.id = p.id;
+        el.dataset.engine = p.engine;
+        el.dataset.platforms = p.platforms.join(',');
+
+        const hasVideo = p.video && p.video !== 'Assets/Videos/MissingFootage.webp';
+
+        el.innerHTML = `
+      <div class="gallery-media">
+        <img src="${p.cover}" alt="${p.title}" loading="lazy">
+        ${hasVideo ? `<video muted playsinline loop preload="none"><source src="${p.video}" type="video/webm"></video>` : ''}
+      </div>
+      <div class="gallery-label">
+        <div class="gallery-title">${p.title}</div>
+        <div class="gallery-meta">${p.year} · ${p.engine.toUpperCase()}</div>
+      </div>
+      <div class="gallery-tags">
+        ${p.platforms.map(pt => `<span class="tag-badge">${platformLabel(pt)}</span>`).join('')}
+      </div>
+    `;
+
+        // hover: play video
+        if (hasVideo) {
+            const vid = el.querySelector('video');
+            el.addEventListener('mouseenter', () => { vid.play().catch(() => {}); });
+            el.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
+        }
+
+        // click: open modal
+        el.addEventListener('click', () => openModal(p));
+
+        return el;
+    }
+
+    function platformLabel(pt) {
+        const map = { web:'🌐 Web', mobile:'📱 Mobile', steam:'🎮 Steam', epic:'⚡ Epic', unreleased:'🔒 Unreleased', quest:'🥽 Quest' };
+        return map[pt] || pt;
+    }
+
+    function getFiltered() {
+        let list = PROJECTS.slice();
+
+        if (activeEngine !== 'all') {
+            list = list.filter(p => p.engine === activeEngine);
+        }
+        if (activePlatform) {
+            list = list.filter(p => p.platforms.includes(activePlatform));
+        }
+
+        if (activeSort === 'alpha') {
+            list.sort((a, b) => a.title.localeCompare(b.title));
+        } else if (activeSort === 'date-new') {
+            list.sort((a, b) => new Date(b.date) - new Date(a.date));
+        } else if (activeSort === 'date-old') {
+            list.sort((a, b) => new Date(a.date) - new Date(b.date));
+        }
+
+        return list;
+    }
+
+    function renderGallery() {
+        const gallery = document.getElementById('mainGallery');
+        gallery.innerHTML = '';
+        const list = getFiltered();
+
+        if (list.length === 0) {
+            gallery.innerHTML = '<div class="gallery-empty">No projects match the current filters.</div>';
+            return;
+        }
+
+        list.forEach(p => gallery.appendChild(buildCard(p)));
+    }
+
+    // ── MODAL ─────────────────────────────────────────────────────
+    const modal = document.getElementById('gallery-modal');
+    const modalVideo = document.getElementById('modalVideo');
+    const modalImg = document.getElementById('modalImg');
+
+    function openModal(p) {
+        document.getElementById('modalTitle').textContent = p.title;
+        document.getElementById('modalDesc').textContent = p.desc;
+
+        // media
+        modalImg.src = p.cover;
+        modalImg.alt = p.title;
+        const hasVideo = p.video && p.video !== 'Assets/Videos/MissingFootage.webp';
+        if (hasVideo) {
+            modalVideo.innerHTML = `<source src="${p.video}" type="video/webm">`;
+            modalVideo.classList.add('active');
+            modalVideo.load();
+            modalVideo.play().catch(() => {});
+        } else {
+            modalVideo.innerHTML = '';
+            modalVideo.classList.remove('active');
+            modalVideo.pause();
+        }
+
+        // info row
+        const infoRow = document.getElementById('modalInfoRow');
+        infoRow.innerHTML = `<span class="modal-date">📅 ${p.year}</span>
+      <span class="modal-tag">${p.engine.toUpperCase()}</span>
+      ${p.platforms.map(pt => `<span class="modal-tag">${platformLabel(pt)}</span>`).join('')}`;
+
+        // tools
+        const toolsSec = document.getElementById('modalToolsSection');
+        const toolsRow = document.getElementById('modalTools');
+        if (p.tools && p.tools.length) {
+            toolsRow.innerHTML = p.tools.map(t => `<span class="tool-chip">${t}</span>`).join('');
+            toolsSec.style.display = '';
+        } else {
+            toolsSec.style.display = 'none';
+        }
+
+        // links
+        const linksRow = document.getElementById('modalLinks');
+        linksRow.innerHTML = p.links.map(l =>
+            `<a class="modal-link-btn" href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`
+        ).join('');
+
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('open');
+        modalVideo.pause();
+        modalVideo.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // ── FILTERS ───────────────────────────────────────────────────
+    document.getElementById('engineFilters').addEventListener('click', e => {
+        const btn = e.target.closest('[data-engine]');
+        if (!btn) return;
+        document.querySelectorAll('[data-engine]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeEngine = btn.dataset.engine;
+        renderGallery();
     });
+
+    document.getElementById('platformFilters').addEventListener('click', e => {
+        const btn = e.target.closest('[data-platform]');
+        if (!btn) return;
+        const val = btn.dataset.platform;
+        if (activePlatform === val) {
+            btn.classList.remove('active');
+            activePlatform = null;
+        } else {
+            document.querySelectorAll('[data-platform]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activePlatform = val;
+        }
+        renderGallery();
+    });
+
+    document.getElementById('sortFilters').addEventListener('click', e => {
+        const btn = e.target.closest('[data-sort]');
+        if (!btn) return;
+        document.querySelectorAll('[data-sort]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeSort = btn.dataset.sort;
+        renderGallery();
+    });
+
+    // initial render
+    renderGallery();
 </script>
 
 </body>
