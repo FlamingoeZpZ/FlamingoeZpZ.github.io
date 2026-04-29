@@ -126,6 +126,27 @@
         @media (max-width: 650px) {
             .hero-footer { flex-direction: column; align-items: flex-start; }
         }
+
+        /* ── ITCH MINIPLAYER ─────────────────────────────────────── */
+        .itch-player-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #000;
+        }
+        .itch-player-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        #modalItchPlayer .modal-tools-label {
+            margin-bottom: 0.6rem;
+        }
     </style>
 </head>
 
@@ -255,6 +276,12 @@
                 <div class="modal-tools-label">Languages &amp; Tools</div>
                 <div class="modal-tools-row" id="modalTools"></div>
             </div>
+            <div id="modalItchPlayer" style="display:none">
+                <div class="modal-tools-label">Play</div>
+                <div class="itch-player-wrap">
+                    <iframe id="itchFrame" src="" allowfullscreen></iframe>
+                </div>
+            </div>
             <div class="modal-link-row" id="modalLinks"></div>
         </div>
     </div>
@@ -362,7 +389,7 @@
             cover: 'Assets/Videos/Unity/ChickenCover.webp',
             video: 'Assets/Videos/Unity/ChickenHover.webm',
             desc: `Chicken Chaser is a game developed for RP4K, created in 2023. It was designed as an entry point into Unity — teaching the correct way to do things: understanding that everything is a GameObject composed of Components, scriptable objects, and proper design patterns. Works on every platform. Music by Sebastian Finkbeiner.`,
-            links: [{ label: '▶ Play In Browser', url: 'Projects/Unity/Chicken%20Chaser/index.html' }],
+            links: [{ label: '▶ Play In Browser', url: 'https://itch.io/embed/2731498', itch: true }, { label: '🔗 itch.io', url: 'https://flamingoezpz.itch.io/chicken-chaser' }],
         },
         {
             id: 'dice-duel',
@@ -375,7 +402,7 @@
             cover: 'Assets/Videos/MissingFootage.webp',
             video: null,
             desc: `Dice Duel is a game created for RP4K in 2025, developed at the CEO's special request to teach the binomial distribution. It emphasizes good code practices, SOLID principles, and reusable components like a Drag and Drop system. Art by Nicholas Ye, Sound & Music by Sebastian Finkbeiner.`,
-            links: [{ label: '▶ Play In Browser', url: 'Projects/Unity/DiceDuel/index.html' }],
+            links: [{ label: '▶ Play In Browser', url: 'https://itch.io/embed/3276171', itch: true }, { label: '🔗 itch.io', url: 'https://flamingoezpz.itch.io/dice-duel' }],
         },
         {
             id: 'special-defishion',
@@ -578,9 +605,21 @@
             toolsSec.style.display = 'none';
         }
 
-        // links
+        // itch miniplayer
+        const itchPlayer = document.getElementById('modalItchPlayer');
+        const itchFrame = document.getElementById('itchFrame');
+        const itchLink = p.links.find(l => l.itch);
+        if (itchLink) {
+            itchFrame.src = itchLink.url + '?secret=&border_width=0';
+            itchPlayer.style.display = '';
+        } else {
+            itchFrame.src = '';
+            itchPlayer.style.display = 'none';
+        }
+
+        // links (exclude itch embed links from button row)
         const linksRow = document.getElementById('modalLinks');
-        linksRow.innerHTML = p.links.map(l =>
+        linksRow.innerHTML = p.links.filter(l => !l.itch).map(l =>
             `<a class="modal-link-btn" href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`
         ).join('');
 
@@ -592,6 +631,9 @@
         modal.classList.remove('open');
         modalVideo.pause();
         modalVideo.classList.remove('active');
+        // unload itch iframe to stop game audio/cpu
+        document.getElementById('itchFrame').src = '';
+        document.getElementById('modalItchPlayer').style.display = 'none';
         document.body.style.overflow = '';
     }
 
